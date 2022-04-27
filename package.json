@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack serve --port 3000",
     "build": "NODE_ENV=production webpack",
-    "lint": "eslint . --ext .tsx,.js"
+    "lint": "eslint . --ext .tsx,.js",
+    "prepare": "husky install"
   },
   "repository": {
     "type": "git",
@@ -19,6 +20,11 @@
     "url": "https://github.com/dethereum/shape-toy-prompt/issues"
   },
   "homepage": "https://github.com/dethereum/shape-toy-prompt#readme",
+  "lint-staged": {
+    "**/*.{js,tsx}": [
+      "npm run lint -- --fix"
+    ]
+  },
   "dependencies": {
     "react": "^18.1.0",
     "react-dom": "^18.1.0"
@@ -38,7 +44,9 @@
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^4.0.0",
     "html-webpack-plugin": "^5.5.0",
+    "husky": "^7.0.0",
     "jest": "^27.5.1",
+    "lint-staged": "^12.4.1",
     "mini-css-extract-plugin": "^2.6.0",
     "prettier": "^2.6.2",
     "ts-jest": "^27.1.4",
