@@ -25,4 +25,14 @@ describe("app", () => {
       />
     `);
   });
+
+  it("render a 'Add Circle' button", () => {
+    expect.assertions(1);
+
+    render(<App />);
+
+    const btn = screen.getByText("Add Circle");
+
+    expect(btn).toBeInTheDocument();
+  });
 });
