@@ -7,7 +7,7 @@
     "start": "webpack serve --port 3000",
     "build": "NODE_ENV=production webpack",
     "test": "jest",
-    "lint": "eslint . --ext .tsx,.js",
+    "lint": "eslint . --ext .tsx,.js,.ts",
     "prepare": "husky install"
   },
   "repository": {
