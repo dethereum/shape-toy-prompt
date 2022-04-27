@@ -1,15 +1,14 @@
-const prod = process.env.NODE_ENV === 'production';
+const prod = process.env.NODE_ENV === "production";
 
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
 /** @type {import('webpack').Configuration} */
 const config = {
-  mode: prod ? 'production' : 'development',
-  entry: './src/index.tsx',
+  mode: prod ? "production" : "development",
+  entry: "./src/index.tsx",
   output: {
-    path: __dirname + '/dist/',
+    path: __dirname + "/dist/",
   },
   module: {
     rules: [
@@ -17,20 +16,20 @@ const config = {
         test: /\.(ts|tsx)$/,
         exclude: /node_modules/,
         resolve: {
-          extensions: ['.ts', '.tsx', '.js', '.json'],
+          extensions: [".ts", ".tsx", ".js", ".json"],
         },
-        use: 'ts-loader',
+        use: "ts-loader",
       },
       {
         test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, 'css-loader'],
+        use: [MiniCssExtractPlugin.loader, "css-loader"],
       },
-    ]
+    ],
   },
-  devtool: prod ? undefined : 'source-map',
+  devtool: prod ? undefined : "source-map",
   plugins: [
     new HtmlWebpackPlugin({
-      template: './public/index.html',
+      template: "./public/index.html",
     }),
     new MiniCssExtractPlugin(),
   ],

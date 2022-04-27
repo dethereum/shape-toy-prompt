@@ -9,5 +9,33 @@
         "plugin:@typescript-eslint/eslint-recommended",
         "plugin:@typescript-eslint/recommended",
         "plugin:prettier/recommended"
+    ],
+    "overrides": [
+        {
+            "files": [
+                "webpack.config.js",
+                "jest.config.js"
+            ],
+            "extends": [
+                "plugin:node/recommended-script"
+            ],
+            "env": {
+                "browser": false
+            },
+            "rules": {
+                // requires are needed in cjs
+                "@typescript-eslint/no-var-requires": 0,
+                // we are not publishing this as a package so no danger
+                "node/no-unpublished-require": 0
+            }
+        },
+        {
+            "files": [
+                "src/**/*.test.tsx"
+            ],
+            "env": {
+                "jest": true
+            }
+        }
     ]
 }
