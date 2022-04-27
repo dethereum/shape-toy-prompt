@@ -16,8 +16,11 @@ describe("App", () => {
       name: /draw shapes here/i,
     });
 
-    expect(canvas).toContainHTML(
-      '<canvas aria-label="Draw shapes here" role="img"/>'
-    );
+    expect(canvas).toMatchInlineSnapshot(`
+      <canvas
+        aria-label="Draw shapes here"
+        role="img"
+      />
+    `);
   });
 });

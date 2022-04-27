@@ -1,3 +1,5 @@
 import React from "react";
 
-export const App = () => <h1>สวัสดี ไลก!</h1>;
+export const App = () => {
+  return <canvas role="img" aria-label="Draw shapes here"></canvas>;
+};
