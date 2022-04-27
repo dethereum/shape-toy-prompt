@@ -37,4 +37,14 @@ describe("app", () => {
 
     expect(btn).toBeInTheDocument();
   });
+
+  it("render a 'Add Rectangle' button", () => {
+    expect.assertions(1);
+
+    render(<App />);
+
+    const btn = screen.getByRole("button", { name: /add rectangle/i });
+
+    expect(btn).toBeInTheDocument();
+  });
 });
