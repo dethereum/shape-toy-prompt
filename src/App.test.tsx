@@ -21,7 +21,9 @@ describe("app", () => {
     expect(canvas).toMatchInlineSnapshot(`
       <canvas
         aria-label="Draw shapes here"
+        height="500"
         role="img"
+        width="500"
       />
     `);
   });
@@ -31,7 +33,7 @@ describe("app", () => {
 
     render(<App />);
 
-    const btn = screen.getByText("Add Circle");
+    const btn = screen.getByRole("button", { name: /add circle/i });
 
     expect(btn).toBeInTheDocument();
   });
