@@ -5,6 +5,7 @@
 import "@testing-library/jest-dom";
 
 import React from "react";
+import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
 import { App } from "./App";
 
@@ -46,5 +47,26 @@ describe("app", () => {
     const btn = screen.getByRole("button", { name: /add rectangle/i });
 
     expect(btn).toBeInTheDocument();
+  });
+
+  it("draw a circle on click of 'Add Circle' button", async () => {
+    expect.assertions(1);
+
+    const canvas = document.createElement("canvas");
+    const ctx = canvas.getContext("2d");
+
+    // eslint-disable-next-line jest/no-conditional-in-test
+    if (!ctx) throw new Error("context was not mocked");
+
+    const user = userEvent.setup();
+
+    render(<App context={ctx} />);
+
+    await user.click(screen.getByRole("button", { name: /add circle/i }));
+
+    //@ts-expect-error these methods on the mock dont exist on the real rendering context
+    const events: unknown[] = ctx.__getEvents();
+
+    expect(events).toHaveLength(3);
   });
 });
