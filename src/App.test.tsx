@@ -8,8 +8,10 @@ import React from "react";
 import { render, screen } from "@testing-library/react";
 import { App } from "./App";
 
-describe("App", () => {
+describe("app", () => {
   it("should render a canvas", () => {
+    expect.assertions(1);
+
     render(<App />);
 
     const canvas = screen.getByRole("img", {
