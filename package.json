@@ -9,7 +9,7 @@
     "test": "jest",
     "lint": "eslint . --ext .tsx,.js,.ts",
     "prepare": "husky install",
-    "cypress:open": "cypress open"
+    "cypress:open": "cypress open --env type=actual"
   },
   "repository": {
     "type": "git",

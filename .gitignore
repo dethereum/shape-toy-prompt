@@ -130,4 +130,5 @@ dist
 .yarn/install-state.gz
 .pnp.*
 
-cypress.json
+cypress/snapshots/actual/*
+cypress/snapshots/diff/*

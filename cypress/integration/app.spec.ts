@@ -11,10 +11,6 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).click(75, 75);
 
-    /*     
-    cy.compareSnapshot("circle highlight", {
-      capture: "fullPage",
-    }); 
-    */
+    cy.compareSnapshot("circle drawn", { errorThreshold: 0.1 });
   });
 });
