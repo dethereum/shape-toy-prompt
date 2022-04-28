@@ -39,4 +39,13 @@ describe("isPointInShape", () => {
 
     expect(result).toBe(false);
   });
+
+  it("returns true when point is inside of rectangle", () => {
+    const x = 5;
+    const y = 1.5;
+
+    const result = isPointInShape(x, y, rectangle);
+
+    expect(result).toBe(true);
+  });
 });
