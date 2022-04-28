@@ -1,6 +1,10 @@
-type BaseShape = {
+export type Point = {
   x: number;
   y: number;
+};
+
+type BaseShape = {
+  center: Point;
   color?: string;
 };
 
