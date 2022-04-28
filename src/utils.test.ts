@@ -6,6 +6,13 @@ describe("isPointInShape", () => {
     radius: 2,
   };
 
+  const rectangle = {
+    height: 2,
+    width: 3,
+    x: 5.5,
+    y: 1,
+  };
+
   it("returns false when point is outside of circle", () => {
     const x = 4;
     const y = 2;
@@ -22,5 +29,14 @@ describe("isPointInShape", () => {
     const result = isPointInShape(x, y, circle);
 
     expect(result).toBe(true);
+  });
+
+  it("returns false when point is outside of rectangle", () => {
+    const x = 2;
+    const y = 2;
+
+    const result = isPointInShape(x, y, rectangle);
+
+    expect(result).toBe(false);
   });
 });
