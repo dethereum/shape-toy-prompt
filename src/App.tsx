@@ -4,11 +4,30 @@ type AppProps = {
   context?: CanvasRenderingContext2D;
 };
 
+type BaseShape = {
+  x: number;
+  y: number;
+  color?: string;
+};
+
+type Circle = {
+  radius: number;
+} & BaseShape;
+
+type Rectangle = {
+  width: number;
+  height: number;
+} & BaseShape;
+
+type Shape = Rectangle | Circle;
+
 export const App = (props: AppProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(
     props.context || null
   );
+
+  const [shapes, setShapes] = useState<Shape[]>([]);
 
   useEffect(() => {
     if (!context && canvasRef.current) {
