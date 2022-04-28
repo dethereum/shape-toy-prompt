@@ -3,4 +3,5 @@ module.exports = {
   preset: "ts-jest",
   testEnvironment: "node",
   setupFiles: ["jest-canvas-mock"],
+  testPathIgnorePatterns: ["<rootDir>/cypress"],
 };

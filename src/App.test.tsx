@@ -67,7 +67,7 @@ describe("app", () => {
     //@ts-expect-error these methods on the mock dont exist on the real rendering context
     const events: unknown[] = ctx.__getEvents();
 
-    expect(events).toHaveLength(3);
+    expect(events).toHaveLength(4);
   });
 
   it("draw a rectangle on click of 'Add Rectangle' button", async () => {
