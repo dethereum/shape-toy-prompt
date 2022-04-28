@@ -14,7 +14,8 @@
         {
             "files": [
                 "webpack.config.js",
-                "jest.config.js"
+                "jest.config.js",
+                "cypress/plugins/index.js"
             ],
             "extends": [
                 "plugin:node/recommended-script"
@@ -41,6 +42,17 @@
             ],
             "env": {
                 "jest": true
+            }
+        },
+        {
+            "files": [
+                "cypress/**/*.spec.ts"
+            ],
+            "extends": [
+                "plugin:cypress/recommended"
+            ],
+            "env": {
+                "cypress/globals": true
             }
         }
     ]
