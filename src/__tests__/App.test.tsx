@@ -1,13 +1,12 @@
 /**
  * @jest-environment jsdom
  */
-
 import "@testing-library/jest-dom";
 
 import React from "react";
 import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
-import { App } from "./App";
+import { App } from "../App";
 
 describe("app", () => {
   it("should render a canvas", () => {

@@ -1,4 +1,4 @@
-import type { Point, Shape } from "./shapes";
+import type { Point, Shape } from "../shapes";
 
 export const isPointInShape = ({ x, y }: Point, s: Shape): boolean => {
   const { center } = s;

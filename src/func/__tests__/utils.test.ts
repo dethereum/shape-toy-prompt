@@ -1,4 +1,4 @@
-import { isPointInShape } from "./utils";
+import { isPointInShape } from "../utils";
 describe("isPointInShape", () => {
   const circle = {
     radius: 2,

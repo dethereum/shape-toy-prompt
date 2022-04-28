@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 
 import type { Shape } from "./shapes";
 
-import { isPointInShape } from "./utils";
+import { isPointInShape } from "./func/utils";
 
 type AppProps = {
   context?: CanvasRenderingContext2D;
