@@ -8,6 +8,9 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 import "@testing-library/cypress/add-commands";
+import compareSnapshotCommand from "cypress-visual-regression/dist/command";
+
+compareSnapshotCommand();
 //
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
