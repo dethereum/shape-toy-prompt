@@ -25,10 +25,16 @@ export const App = (props: AppProps) => {
     context.stroke();
   }
 
+  function onRectClickHandler() {
+    if (!context) throw new Error("context not defined!");
+
+    context.fillRect(25, 25, 100, 100);
+  }
+
   return (
     <>
       <button onClick={onCircleClickHandler}>Add Circle</button>
-      <button>Add Rectangle</button>
+      <button onClick={onRectClickHandler}>Add Rectangle</button>
       <canvas
         width={500}
         height={500}
