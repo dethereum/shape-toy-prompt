@@ -15,5 +15,5 @@ export const drawShape = (
     return;
   }
 
-  console.log("implement rectangle functionality");
+  ctx.fillRect(x, y, s.width, s.height);
 };
