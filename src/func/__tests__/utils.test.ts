@@ -44,7 +44,7 @@ describe("isPointInShape", () => {
   });
 
   it("returns true when point is inside of rectangle", () => {
-    const p = { x: 5, y: 1.5 };
+    const p = { x: 6, y: 2 };
 
     const result = isPointInShape(p, rectangle);
 

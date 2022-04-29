@@ -37,10 +37,11 @@ export const App = (props: AppProps) => {
         for (const s of shapes) {
           if (!isPointInShape(point, s)) continue;
 
+          drawShape(context, s);
+          context.strokeStyle = "rgba(255, 251, 0, 0.7)";
+          context.lineWidth = 10;
+
           if ("radius" in s) {
-            drawShape(context, s);
-            context.strokeStyle = "rgba(255, 251, 0, 0.7)";
-            context.lineWidth = 10;
             context.beginPath();
             context.arc(
               s.center.x,
@@ -51,7 +52,10 @@ export const App = (props: AppProps) => {
               true
             );
             context.stroke();
+            continue;
           }
+
+          context.strokeRect(s.center.x, s.center.y, s.width, s.height);
         }
       };
 
