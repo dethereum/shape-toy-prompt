@@ -13,7 +13,7 @@ describe("drawShape", () => {
     color: "black",
   };
 
-  it("calls context when drawing a shape", () => {
+  it("calls context when drawing a circle", () => {
     expect.assertions(1);
 
     const canvas = document.createElement("canvas");

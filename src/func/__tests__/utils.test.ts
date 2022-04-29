@@ -6,6 +6,7 @@ describe("isPointInShape", () => {
       x: 8,
       y: 2,
     },
+    color: "black",
   };
 
   const rectangle = {
@@ -15,6 +16,7 @@ describe("isPointInShape", () => {
       x: 5.5,
       y: 1,
     },
+    color: "black",
   };
 
   it("returns false when point is outside of circle", () => {

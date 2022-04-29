@@ -5,7 +5,7 @@ export type Point = {
 
 type BaseShape = {
   center: Point;
-  color?: string;
+  color: string;
 };
 
 type Circle = {
