@@ -5,7 +5,7 @@ const HIGHLIGHT_COLOR = "rgba(0, 76, 255, 0.3)";
 
 export const drawShape = (
   ctx: CanvasRenderingContext2D,
-  { color, center: { x, y }, ...s }: Shape
+  { color, point: { x, y }, ...s }: Shape
 ): void => {
   ctx.fillStyle = color;
 
@@ -23,7 +23,7 @@ export const drawShape = (
 
 const makeShapeSelector =
   (clr: string) =>
-  (ctx: CanvasRenderingContext2D, { center: { x, y }, ...s }: Shape): void => {
+  (ctx: CanvasRenderingContext2D, { point: { x, y }, ...s }: Shape): void => {
     ctx.strokeStyle = clr;
     ctx.lineWidth = 10;
 

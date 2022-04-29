@@ -79,7 +79,7 @@ export const App = (props: AppProps) => {
 
     const circle = {
       radius: 50,
-      center: {
+      point: {
         x: 75,
         y: 75,
       },
@@ -96,7 +96,7 @@ export const App = (props: AppProps) => {
     const rect = {
       height: 100,
       width: 100,
-      center: { x: 25, y: 25 },
+      point: { x: 25, y: 25 },
       color: "black",
     };
 

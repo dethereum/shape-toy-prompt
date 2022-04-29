@@ -6,7 +6,7 @@ import { drawShape, selectShape } from "../draw";
 
 const circle = {
   radius: 5,
-  center: {
+  point: {
     x: 2,
     y: 3,
   },
@@ -14,7 +14,7 @@ const circle = {
 };
 
 const rect = {
-  center: {
+  point: {
     x: 5,
     y: 10,
   },
@@ -76,8 +76,8 @@ describe("drawShape", () => {
       expect.assertions(1);
 
       const expected = {
-        x: circle.center.x,
-        y: circle.center.y,
+        x: circle.point.x,
+        y: circle.point.y,
         radius: circle.radius,
         startAngle: 0,
         endAngle: 6.283185307179586,
@@ -154,7 +154,7 @@ describe("drawShape", () => {
       const expected = {
         height: rect.height,
         width: rect.width,
-        ...rect.center,
+        ...rect.point,
       };
 
       if (!ctx) throw new Error("context was not mocked");
@@ -241,8 +241,8 @@ describe("selectShape", () => {
 
       const expected = {
         radius: circle.radius * 2,
-        x: circle.center.x,
-        y: circle.center.y,
+        x: circle.point.x,
+        y: circle.point.y,
         startAngle: 0,
         anticlockwise: true,
         endAngle: 6.283185307179586,
@@ -331,7 +331,7 @@ describe("selectShape", () => {
       const expected = {
         height: rect.height,
         width: rect.width,
-        ...rect.center,
+        ...rect.point,
       };
 
       if (!ctx) throw new Error("context was not mocked");

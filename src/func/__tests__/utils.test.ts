@@ -2,7 +2,7 @@ import { isPointInShape } from "../utils";
 describe("isPointInShape", () => {
   const circle = {
     radius: 2,
-    center: {
+    point: {
       x: 8,
       y: 2,
     },
@@ -12,7 +12,7 @@ describe("isPointInShape", () => {
   const rectangle = {
     height: 2,
     width: 3,
-    center: {
+    point: {
       x: 5.5,
       y: 1,
     },
