@@ -29,7 +29,8 @@ export const App = (props: AppProps) => {
 
   useEffect(() => {
     if (context && canvasRef.current) {
-      const mouseDownHandler = ({ offsetX, offsetY }: MouseEvent) => {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const mouseDownHandler = ({ offsetX, offsetY, shiftKey }: MouseEvent) => {
         const point = {
           x: offsetX,
           y: offsetY,
