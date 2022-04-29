@@ -1,41 +1,45 @@
 /**
  * @jest-environment jsdom
  */
-import { drawShape } from "../draw";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { drawShape, selectShape } from "../draw";
+
+const circle = {
+  radius: 5,
+  center: {
+    x: 2,
+    y: 3,
+  },
+  color: "black",
+};
+
+const rect = {
+  center: {
+    x: 5,
+    y: 10,
+  },
+  width: 4,
+  height: 8,
+  color: "black",
+};
+
+let canvas: HTMLCanvasElement;
+let ctx: CanvasRenderingContext2D | null;
+
+beforeEach(function () {
+  canvas = document.createElement("canvas");
+  ctx = canvas.getContext("2d");
+});
 
 describe("drawShape", () => {
-  const circle = {
-    radius: 5,
-    center: {
-      x: 2,
-      y: 3,
-    },
-    color: "black",
-  };
-
-  const rect = {
-    center: {
-      x: 5,
-      y: 10,
-    },
-    width: 4,
-    height: 8,
-    color: "black",
-  };
-
   it("calls fillStyle method first when drawing a shape", () => {
     expect.assertions(1);
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    // eslint-disable-next-line jest/no-conditional-in-test
     if (!ctx) throw new Error("context was not mocked");
 
     drawShape(ctx, circle);
 
     // @ts-expect-error these methods on the mock dont exist on the real rendering context
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const events: any[] = ctx.__getEvents();
 
     expect(events[0]["type"]).toStrictEqual("fillStyle");
@@ -44,16 +48,11 @@ describe("drawShape", () => {
   it("calls beginPath method second when drawing a circle", () => {
     expect.assertions(1);
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    // eslint-disable-next-line jest/no-conditional-in-test
     if (!ctx) throw new Error("context was not mocked");
 
     drawShape(ctx, circle);
 
     // @ts-expect-error these methods on the mock dont exist on the real rendering context
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const events: any[] = ctx.__getEvents();
 
     expect(events[1]["type"]).toStrictEqual("beginPath");
@@ -62,16 +61,11 @@ describe("drawShape", () => {
   it("calls arc method third when drawing a circle", () => {
     expect.assertions(1);
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    // eslint-disable-next-line jest/no-conditional-in-test
     if (!ctx) throw new Error("context was not mocked");
 
     drawShape(ctx, circle);
 
     // @ts-expect-error these methods on the mock dont exist on the real rendering context
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const events: any[] = ctx.__getEvents();
 
     expect(events[2]["type"]).toStrictEqual("arc");
@@ -89,16 +83,11 @@ describe("drawShape", () => {
       anticlockwise: true,
     };
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    // eslint-disable-next-line jest/no-conditional-in-test
     if (!ctx) throw new Error("context was not mocked");
 
     drawShape(ctx, circle);
 
     // @ts-expect-error these methods on the mock dont exist on the real rendering context
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const events: any[] = ctx.__getEvents();
 
     expect(events[2]["props"]).toStrictEqual(expected);
@@ -107,16 +96,11 @@ describe("drawShape", () => {
   it("calls fill method last when drawing a circle", () => {
     expect.assertions(1);
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    // eslint-disable-next-line jest/no-conditional-in-test
     if (!ctx) throw new Error("context was not mocked");
 
     drawShape(ctx, circle);
 
     // @ts-expect-error these methods on the mock dont exist on the real rendering context
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const events: any[] = ctx.__getEvents();
 
     expect(events[events.length - 1]["type"]).toStrictEqual("fill");
@@ -125,16 +109,11 @@ describe("drawShape", () => {
   it("calls fillRect method second when drawing a rect", () => {
     expect.assertions(1);
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    // eslint-disable-next-line jest/no-conditional-in-test
     if (!ctx) throw new Error("context was not mocked");
 
     drawShape(ctx, rect);
 
     // @ts-expect-error these methods on the mock dont exist on the real rendering context
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const events: any[] = ctx.__getEvents();
 
     expect(events[1]["type"]).toStrictEqual("fillRect");
@@ -149,16 +128,11 @@ describe("drawShape", () => {
       ...rect.center,
     };
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    // eslint-disable-next-line jest/no-conditional-in-test
     if (!ctx) throw new Error("context was not mocked");
 
     drawShape(ctx, rect);
 
     // @ts-expect-error these methods on the mock dont exist on the real rendering context
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const events: any[] = ctx.__getEvents();
 
     expect(events[1]["props"]).toStrictEqual(expected);
@@ -167,16 +141,11 @@ describe("drawShape", () => {
   it("calls ctx twice when drawing a rectangle", () => {
     expect.assertions(1);
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    // eslint-disable-next-line jest/no-conditional-in-test
     if (!ctx) throw new Error("context was not mocked");
 
     drawShape(ctx, rect);
 
     // @ts-expect-error these methods on the mock dont exist on the real rendering context
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const events: any[] = ctx.__getEvents();
 
     expect(events).toHaveLength(2);
@@ -185,18 +154,28 @@ describe("drawShape", () => {
   it("calls ctx four times when drawing a circle", () => {
     expect.assertions(1);
 
-    const canvas = document.createElement("canvas");
-    const ctx = canvas.getContext("2d");
-
-    // eslint-disable-next-line jest/no-conditional-in-test
     if (!ctx) throw new Error("context was not mocked");
 
     drawShape(ctx, circle);
 
     // @ts-expect-error these methods on the mock dont exist on the real rendering context
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const events: any[] = ctx.__getEvents();
 
     expect(events).toHaveLength(4);
+  });
+});
+
+describe("selectShape", () => {
+  it("calls strokeStyle method first when selecting a shape", () => {
+    expect.assertions(1);
+
+    if (!ctx) throw new Error("context was not mocked");
+
+    selectShape(ctx, circle);
+
+    // @ts-expect-error these methods on the mock dont exist on the real rendering context
+    const events: any[] = ctx.__getEvents();
+
+    expect(events[0]["type"]).toStrictEqual("strokeStyle");
   });
 });
