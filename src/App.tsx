@@ -3,8 +3,11 @@ import React, { useEffect, useRef, useState } from "react";
 import type { Shape } from "./shapes";
 
 import { isPointInShape } from "./func/utils";
-import { drawShape, selectShape } from "./func/draw";
+import { drawShape, selectShape, highlightShape } from "./func/draw";
 
+/**
+ * @param {Object} AppProps  Props for root level component. Used to pass mocked context for jest runtime
+ */
 type AppProps = {
   context?: CanvasRenderingContext2D;
 };
@@ -42,11 +45,31 @@ export const App = (props: AppProps) => {
         }
       };
 
+      const mouseMoveHandler = ({ offsetX, offsetY }: MouseEvent) => {
+        const point = {
+          x: offsetX,
+          y: offsetY,
+        };
+
+        context.clearRect(0, 0, 500, 500);
+
+        for (const s of shapes) {
+          drawShape(context, s);
+
+          if (!isPointInShape(point, s)) continue;
+
+          highlightShape(context, s);
+        }
+      };
+
       canvasRef.current.addEventListener("mousedown", mouseDownHandler);
+      canvasRef.current.addEventListener("mousemove", mouseMoveHandler);
 
       return () => {
-        canvasRef.current &&
+        if (canvasRef.current) {
           canvasRef.current.removeEventListener("mousedown", mouseDownHandler);
+          canvasRef.current.removeEventListener("mousemove", mouseMoveHandler);
+        }
       };
     }
   }, [context, shapes]);
