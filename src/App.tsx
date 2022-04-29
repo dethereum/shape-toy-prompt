@@ -42,6 +42,7 @@ export const App = (props: AppProps) => {
 
           drawShape(context, s);
           selectShape(context, s);
+          setShapes([{ ...s, isSelected: true }]);
         }
       };
 
@@ -55,10 +56,11 @@ export const App = (props: AppProps) => {
 
         for (const s of shapes) {
           drawShape(context, s);
+          if (s.isSelected) selectShape(context, s);
 
           if (!isPointInShape(point, s)) continue;
 
-          highlightShape(context, s);
+          if (!s.isSelected) highlightShape(context, s);
         }
       };
 
