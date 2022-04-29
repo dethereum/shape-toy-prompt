@@ -41,8 +41,11 @@ export const App = (props: AppProps) => {
           if (!isPointInShape(point, s)) continue;
 
           drawShape(context, s);
-          selectShape(context, s);
-          setShapes([{ ...s, isSelected: true }]);
+
+          const f = !s.isSelected ? selectShape : highlightShape;
+          f(context, s);
+
+          setShapes([{ ...s, isSelected: !s.isSelected }]);
         }
       };
 
