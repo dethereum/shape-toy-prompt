@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import type { Shape } from "./shapes";
 
 import { isPointInShape } from "./func/utils";
+import { drawShape } from "./func/draw";
 
 type AppProps = {
   context?: CanvasRenderingContext2D;
@@ -31,26 +32,24 @@ export const App = (props: AppProps) => {
           y: ev.offsetY,
         };
 
+        context.clearRect(0, 0, 500, 500);
+
         for (const s of shapes) {
           if (!isPointInShape(point, s)) continue;
 
           if ("radius" in s) {
-            const {
-              center: { x, y },
-              radius,
-              color,
-            } = s;
-
-            context.clearRect(0, 0, 500, 500);
-
-            context.fillStyle = color || "black";
-            context.beginPath();
-            context.arc(x, y, radius, 0, Math.PI * 2, true);
-            context.fill();
+            drawShape(context, s);
             context.strokeStyle = "rgba(255, 251, 0, 0.7)";
             context.lineWidth = 10;
             context.beginPath();
-            context.arc(x, y, radius + 5, 0, Math.PI * 2, true);
+            context.arc(
+              s.center.x,
+              s.center.y,
+              s.radius + 5,
+              0,
+              Math.PI * 2,
+              true
+            );
             context.stroke();
           }
         }
@@ -77,25 +76,22 @@ export const App = (props: AppProps) => {
       color: "black",
     };
 
-    context.fillStyle = circle.color;
-    context.beginPath();
-    context.arc(
-      circle.center.x,
-      circle.center.y,
-      circle.radius,
-      0,
-      Math.PI * 2,
-      true
-    );
-
+    drawShape(context, circle);
     setShapes([circle]);
-    context.fill();
   }
 
   function onRectClickHandler() {
     if (!context) throw new Error("context not defined!");
 
-    context.fillRect(25, 25, 100, 100);
+    const rect = {
+      height: 100,
+      width: 100,
+      center: { x: 25, y: 25 },
+      color: "black",
+    };
+
+    drawShape(context, rect);
+    setShapes([rect]);
   }
 
   return (

@@ -87,6 +87,6 @@ describe("app", () => {
     //@ts-expect-error these methods on the mock dont exist on the real rendering context
     const events: unknown[] = ctx.__getEvents();
 
-    expect(events).toHaveLength(1);
+    expect(events).toHaveLength(2);
   });
 });
