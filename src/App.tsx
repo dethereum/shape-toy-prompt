@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import type { Shape } from "./shapes";
 
 import { isPointInShape } from "./func/utils";
-import { drawShape } from "./func/draw";
+import { drawShape, selectShape } from "./func/draw";
 
 type AppProps = {
   context?: CanvasRenderingContext2D;
@@ -26,10 +26,10 @@ export const App = (props: AppProps) => {
 
   useEffect(() => {
     if (context && canvasRef.current) {
-      const mouseDownHandler = (ev: MouseEvent) => {
+      const mouseDownHandler = ({ offsetX, offsetY }: MouseEvent) => {
         const point = {
-          x: ev.offsetX,
-          y: ev.offsetY,
+          x: offsetX,
+          y: offsetY,
         };
 
         context.clearRect(0, 0, 500, 500);
@@ -38,24 +38,7 @@ export const App = (props: AppProps) => {
           if (!isPointInShape(point, s)) continue;
 
           drawShape(context, s);
-          context.strokeStyle = "rgba(255, 251, 0, 0.7)";
-          context.lineWidth = 10;
-
-          if ("radius" in s) {
-            context.beginPath();
-            context.arc(
-              s.center.x,
-              s.center.y,
-              s.radius + 5,
-              0,
-              Math.PI * 2,
-              true
-            );
-            context.stroke();
-            continue;
-          }
-
-          context.strokeRect(s.center.x, s.center.y, s.width, s.height);
+          selectShape(context, s);
         }
       };
 
