@@ -1,16 +1,16 @@
 import type { Point, Shape } from "../shapes";
 
 export const isPointInShape = ({ x, y }: Point, s: Shape): boolean => {
-  const { center } = s;
+  const { point } = s;
 
   if ("radius" in s) {
-    const d = Math.sqrt((center.x - x) ** 2 + (center.y - y) ** 2);
+    const d = Math.sqrt((point.x - x) ** 2 + (point.y - y) ** 2);
 
     return d <= s.radius;
   }
 
-  const [x1, y1] = [center.x, center.y + s.height] as const;
-  const [x2, y2] = [center.x + s.width, center.y] as const;
+  const [x1, y1] = [point.x, point.y + s.height] as const;
+  const [x2, y2] = [point.x + s.width, point.y] as const;
 
   return x1 < x && x < x2 && y2 < y && y < y1;
 };

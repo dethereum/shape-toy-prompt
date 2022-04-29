@@ -1,15 +1,17 @@
+import type { Shape } from "../../shapes";
 import { isPointInShape } from "../utils";
 describe("isPointInShape", () => {
-  const circle = {
+  const circle: Shape = {
     radius: 2,
     point: {
       x: 8,
       y: 2,
     },
     color: "black",
+    isSelected: false,
   };
 
-  const rectangle = {
+  const rectangle: Shape = {
     height: 2,
     width: 3,
     point: {
@@ -17,6 +19,7 @@ describe("isPointInShape", () => {
       y: 1,
     },
     color: "black",
+    isSelected: false,
   };
 
   it("returns false when point is outside of circle", () => {

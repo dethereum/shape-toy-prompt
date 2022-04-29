@@ -77,13 +77,14 @@ export const App = (props: AppProps) => {
   function onCircleClickHandler() {
     if (!context) throw new Error("context not defined!");
 
-    const circle = {
+    const circle: Shape = {
       radius: 50,
       point: {
         x: 75,
         y: 75,
       },
       color: "black",
+      isSelected: false,
     };
 
     drawShape(context, circle);
@@ -93,11 +94,12 @@ export const App = (props: AppProps) => {
   function onRectClickHandler() {
     if (!context) throw new Error("context not defined!");
 
-    const rect = {
+    const rect: Shape = {
       height: 100,
       width: 100,
       point: { x: 25, y: 25 },
       color: "black",
+      isSelected: false,
     };
 
     drawShape(context, rect);

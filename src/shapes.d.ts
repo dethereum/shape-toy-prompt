@@ -10,6 +10,7 @@ export type Point = {
 type BaseShape = {
   point: Point;
   color: string;
+  isSelected: boolean;
 };
 
 type Circle = {

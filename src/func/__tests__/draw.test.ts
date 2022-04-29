@@ -2,18 +2,20 @@
  * @jest-environment jsdom
  */
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { Shape } from "../../shapes";
 import { drawShape, selectShape } from "../draw";
 
-const circle = {
+const circle: Shape = {
   radius: 5,
   point: {
     x: 2,
     y: 3,
   },
   color: "black",
+  isSelected: false,
 };
 
-const rect = {
+const rect: Shape = {
   point: {
     x: 5,
     y: 10,
@@ -21,6 +23,7 @@ const rect = {
   width: 4,
   height: 8,
   color: "black",
+  isSelected: false,
 };
 
 let canvas: HTMLCanvasElement;
