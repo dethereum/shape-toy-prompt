@@ -102,4 +102,34 @@ describe("The App", () => {
 
     cy.compareSnapshot("circle deselect", { errorThreshold: 0.1 });
   });
+
+  it("deselects circle when clicking outside of selected circle", () => {
+    cy.visit("http://localhost:3000");
+    cy.findByRole("button", { name: /add circle/i }).click();
+
+    cy.findByRole("img", {
+      name: /draw shapes here/i,
+    }).click(75, 75);
+
+    cy.findByRole("img", {
+      name: /draw shapes here/i,
+    }).click(300, 300);
+
+    cy.compareSnapshot("circle canvas deselect", { errorThreshold: 0.1 });
+  });
+
+  it("deselects rectangle when clicking outside of selected rectangle", () => {
+    cy.visit("http://localhost:3000");
+    cy.findByRole("button", { name: /add rectangle/i }).click();
+
+    cy.findByRole("img", {
+      name: /draw shapes here/i,
+    }).click(40, 50);
+
+    cy.findByRole("img", {
+      name: /draw shapes here/i,
+    }).click(300, 300);
+
+    cy.compareSnapshot("rectangle canvas deselect", { errorThreshold: 0.1 });
+  });
 });
