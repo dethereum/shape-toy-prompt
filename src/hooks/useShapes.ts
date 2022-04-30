@@ -7,10 +7,7 @@ import { useEffect, useReducer } from "react";
 import { makeDownHandler, makeMoveHandler } from "../func/handlers";
 import { getShapes, initialState, reducer } from "../func/reducer";
 
-const useShapes = (
-  canvasRef: RefObject<HTMLCanvasElement>,
-  ctx: CanvasRenderingContext2D | null
-) => {
+const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const shapes = getShapes(state);
@@ -18,10 +15,10 @@ const useShapes = (
   useEffect(() => {
     const ref = canvasRef.current;
 
-    if (ctx && ref) {
-      const mouseDownHandler = makeDownHandler(ctx, shapes, dispatch);
+    if (ref) {
+      const mouseDownHandler = makeDownHandler(shapes, dispatch);
 
-      const mouseMoveHandler = makeMoveHandler(ctx, shapes);
+      const mouseMoveHandler = makeMoveHandler(shapes, dispatch);
 
       ref.addEventListener("mousedown", mouseDownHandler);
       ref.addEventListener("mousemove", mouseMoveHandler);
@@ -33,11 +30,9 @@ const useShapes = (
         }
       };
     }
-  }, [canvasRef, ctx, shapes]);
+  }, [canvasRef, shapes]);
 
   function onAddCircle() {
-    if (!ctx) throw new Error("context not defined!");
-
     const circle: Shape = {
       id: nanoid(16),
       radius: 50,
@@ -54,8 +49,6 @@ const useShapes = (
   }
 
   function onAddRectangle() {
-    if (!ctx) throw new Error("context not defined!");
-
     const rect: Shape = {
       id: nanoid(16),
       height: 100,

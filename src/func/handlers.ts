@@ -2,15 +2,10 @@ import type { Dispatch } from "react";
 import type { Shape } from "../shapes";
 import type { RootAction } from "./reducer";
 
-import { highlightShape, selectShape } from "./draw";
-import { isPointInShape } from "./utils";
+import { getMouseDownAction, isPointInShape } from "./utils";
 
 export const makeDownHandler =
-  (
-    ctx: CanvasRenderingContext2D,
-    shapes: Shape[],
-    dispatch: Dispatch<RootAction>
-  ) =>
+  (shapes: Shape[], dispatch: Dispatch<RootAction>) =>
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ({ offsetX, offsetY, shiftKey }: MouseEvent) => {
     const point = {
@@ -18,23 +13,13 @@ export const makeDownHandler =
       y: offsetY,
     };
 
-    for (const s of shapes) {
-      if (!isPointInShape(point, s)) {
-        // @ts-expect-error ignore for the commit
-        dispatch([{ ...s, isSelected: !s.isSelected }]);
-        continue;
-      }
+    const action = getMouseDownAction(shapes, shiftKey, point);
 
-      const f = !s.isSelected ? selectShape : highlightShape;
-      f(ctx, s);
-
-      // @ts-expect-error ignore for the commit
-      dispatch([{ ...s, isSelected: !s.isSelected }]);
-    }
+    dispatch(action);
   };
 
 export const makeMoveHandler =
-  (ctx: CanvasRenderingContext2D, shapes: Shape[]) =>
+  (shapes: Shape[], dispatch: Dispatch<RootAction>) =>
   ({ offsetX, offsetY }: MouseEvent) => {
     const point = {
       x: offsetX,
@@ -42,10 +27,16 @@ export const makeMoveHandler =
     };
 
     for (const s of shapes) {
-      if (s.isSelected) selectShape(ctx, s);
+      // selected shapes cannot be highlighed
+      if (s.isSelected) continue;
 
-      if (!isPointInShape(point, s)) continue;
-
-      if (!s.isSelected) highlightShape(ctx, s);
+      // if point in shape and unselected highlight and exit mouse handler
+      if (isPointInShape(point, s)) {
+        dispatch({ type: "HIGHLIGHT", payload: s });
+        return;
+      }
     }
+
+    // remove highlight even if nothing is highlighted. reduces handles this use case
+    dispatch({ type: "REMOVE_HIGHLIGHT" });
   };

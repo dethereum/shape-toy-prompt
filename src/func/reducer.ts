@@ -4,9 +4,13 @@ type AddAction = {
   type: "ADD";
   payload: Shape;
 };
-
 type SelectAction = {
   type: "SELECT";
+  payload: Shape;
+};
+
+type MultiSelectAction = {
+  type: "MULTI_SELECT";
   payload: Shape;
 };
 
@@ -31,6 +35,7 @@ type RemoveHighlightAction = {
 export type RootAction =
   | AddAction
   | SelectAction
+  | MultiSelectAction
   | DeselectAction
   | DeselectAllAction
   | HighlightAction
@@ -55,6 +60,29 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         },
       };
     case "SELECT":
+      // eslint-disable-next-line no-case-declarations
+      const entities = state.selected.reduce<Record<string, Shape>>(
+        (shapes, id) => {
+          const s = shapes[id];
+          if (!s) return shapes;
+
+          return {
+            ...shapes,
+            [id]: { ...s, isSelected: false },
+          };
+        },
+        {
+          ...state.entities,
+          [action.payload.id]: { ...action.payload, isSelected: true },
+        }
+      );
+
+      return {
+        ...state,
+        selected: [action.payload.id],
+        entities,
+      };
+    case "MULTI_SELECT":
       return {
         ...state,
         entities: {
@@ -64,6 +92,7 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
             isSelected: true,
           },
         },
+        selected: [...state.selected, action.payload.id],
       };
     case "DESELECT":
       return {
@@ -102,7 +131,6 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         },
         highlighted: action.payload.id,
       };
-
     case "REMOVE_HIGHLIGHT":
       // eslint-disable-next-line no-case-declarations
       const hs = state.entities[state.highlighted];

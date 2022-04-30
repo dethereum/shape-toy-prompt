@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 
-import { drawShape, selectShape } from "./func/draw";
+import { drawShape, highlightShape, selectShape } from "./func/draw";
 import useCanvas from "./hooks/useCanvas";
 import useShapes from "./hooks/useShapes";
 
@@ -16,7 +16,7 @@ type AppProps = {
 
 export const App = (props: AppProps) => {
   const [canvas, ctx] = useCanvas(props.context);
-  const [shapes, { onAddCircle, onAddRectangle }] = useShapes(canvas, ctx);
+  const [shapes, { onAddCircle, onAddRectangle }] = useShapes(canvas);
 
   useEffect(() => {
     if (ctx && shapes.length > 0) {
@@ -24,7 +24,14 @@ export const App = (props: AppProps) => {
 
       for (const s of shapes) {
         drawShape(ctx, s);
-        if (s.isSelected) selectShape(ctx, s);
+
+        // if shape selected skip to next shape
+        if (s.isSelected) {
+          selectShape(ctx, s);
+          continue;
+        }
+
+        if (s.isHighlighted) highlightShape(ctx, s);
       }
     }
   }, [shapes, ctx]);
