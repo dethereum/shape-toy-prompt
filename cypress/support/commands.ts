@@ -8,6 +8,7 @@
 // https://on.cypress.io/custom-commands
 // ***********************************************
 import "@testing-library/cypress/add-commands";
+
 import compareSnapshotCommand from "cypress-visual-regression/dist/command";
 
 compareSnapshotCommand();

@@ -1,4 +1,5 @@
 import type { Shape } from "../../shapes";
+
 import { isPointInShape } from "../utils";
 
 describe("isPointInShape", () => {

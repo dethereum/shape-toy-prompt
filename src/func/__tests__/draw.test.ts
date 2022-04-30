@@ -2,6 +2,7 @@
  * @jest-environment jsdom
  */
 import type { Shape } from "../../shapes";
+
 import { drawShape, selectShape } from "../draw";
 
 const circle: Shape = {

@@ -5,7 +5,7 @@ module.exports = {
     tsconfigRootDir: __dirname,
     project: ["./tsconfig.lint.json"],
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["simple-import-sort", "import", "@typescript-eslint"],
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/eslint-recommended",
@@ -15,6 +15,27 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
   ],
+  rules: {
+    "simple-import-sort/imports": [
+      2,
+      {
+        // The default grouping, but with type imports first as a separate
+        // group, sorting that group like non-type imports are grouped.
+        groups: [
+          ["^@?\\w.*\\u0000$", "^[^.].*\\u0000$", "^\\..*\\u0000$"],
+          ["^\\u0000"],
+          ["^@?\\w"],
+          ["^"],
+          ["^\\."],
+        ],
+      },
+    ],
+    "simple-import-sort/exports": 2,
+    "import/first": 2,
+    "import/newline-after-import": 2,
+    "import/no-duplicates": 2,
+    "@typescript-eslint/consistent-type-imports": 2,
+  },
   settings: {
     react: {
       version: "18.1",

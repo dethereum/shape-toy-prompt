@@ -1,5 +1,5 @@
-import * as pulumi from "@pulumi/pulumi";
 import { Bucket, BucketObject, ObjectAccessControl } from "@pulumi/gcp/storage";
+import * as pulumi from "@pulumi/pulumi";
 
 // Create the bucket that holds the state of our infrastructure
 const stateBucket = new Bucket(

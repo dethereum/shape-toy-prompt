@@ -1,4 +1,4 @@
-import { Shape } from "../shapes";
+import type { Shape } from "../shapes";
 
 const SELECT_COLOR = "rgba(255, 251, 0, 0.7)";
 const HIGHLIGHT_COLOR = "rgba(0, 76, 255, 0.3)";

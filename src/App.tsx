@@ -1,9 +1,9 @@
-import React, { useEffect, useRef, useState } from "react";
-
 import type { Shape } from "./shapes";
 
+import React, { useEffect, useRef, useState } from "react";
+
+import { drawShape, highlightShape, selectShape } from "./func/draw";
 import { isPointInShape } from "./func/utils";
-import { drawShape, selectShape, highlightShape } from "./func/draw";
 
 /**
  * @param {Object} AppProps  Props for root level component. Used to pass mocked context for jest runtime

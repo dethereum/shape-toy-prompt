@@ -3,9 +3,10 @@
  */
 import "@testing-library/jest-dom";
 
-import React from "react";
-import userEvent from "@testing-library/user-event";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import React from "react";
+
 import { App } from "../App";
 
 describe("app", () => {
