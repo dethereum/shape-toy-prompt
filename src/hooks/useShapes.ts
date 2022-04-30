@@ -2,21 +2,24 @@ import type { RefObject } from "react";
 import type { Shape } from "../shapes";
 
 import { nanoid } from "nanoid";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer } from "react";
 
 import { makeDownHandler, makeMoveHandler } from "../func/handlers";
+import { getShapes, initialState, reducer } from "../func/reducer";
 
 const useShapes = (
   canvasRef: RefObject<HTMLCanvasElement>,
   ctx: CanvasRenderingContext2D | null
 ) => {
-  const [shapes, setShapes] = useState<Shape[]>([]);
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const shapes = getShapes(state);
 
   useEffect(() => {
     const ref = canvasRef.current;
 
     if (ctx && ref) {
-      const mouseDownHandler = makeDownHandler(ctx, shapes, setShapes);
+      const mouseDownHandler = makeDownHandler(ctx, shapes, dispatch);
 
       const mouseMoveHandler = makeMoveHandler(ctx, shapes);
 
@@ -47,7 +50,7 @@ const useShapes = (
       isHighlighted: false,
     };
 
-    setShapes([circle]);
+    dispatch({ type: "ADD", payload: circle });
   }
 
   function onAddRectangle() {
@@ -63,7 +66,7 @@ const useShapes = (
       isHighlighted: false,
     };
 
-    setShapes([rect]);
+    dispatch({ type: "ADD", payload: rect });
   }
 
   return [shapes, { onAddCircle, onAddRectangle }] as const;

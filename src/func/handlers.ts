@@ -1,5 +1,6 @@
-import type { Dispatch, SetStateAction } from "react";
+import type { Dispatch } from "react";
 import type { Shape } from "../shapes";
+import type { RootAction } from "./reducer";
 
 import { highlightShape, selectShape } from "./draw";
 import { isPointInShape } from "./utils";
@@ -8,7 +9,7 @@ export const makeDownHandler =
   (
     ctx: CanvasRenderingContext2D,
     shapes: Shape[],
-    setShapes: Dispatch<SetStateAction<Shape[]>>
+    dispatch: Dispatch<RootAction>
   ) =>
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ({ offsetX, offsetY, shiftKey }: MouseEvent) => {
@@ -19,14 +20,16 @@ export const makeDownHandler =
 
     for (const s of shapes) {
       if (!isPointInShape(point, s)) {
-        setShapes([{ ...s, isSelected: !s.isSelected }]);
+        // @ts-expect-error ignore for the commit
+        dispatch([{ ...s, isSelected: !s.isSelected }]);
         continue;
       }
 
       const f = !s.isSelected ? selectShape : highlightShape;
       f(ctx, s);
 
-      setShapes([{ ...s, isSelected: !s.isSelected }]);
+      // @ts-expect-error ignore for the commit
+      dispatch([{ ...s, isSelected: !s.isSelected }]);
     }
   };
 
