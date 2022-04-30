@@ -70,7 +70,9 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).realMouseMove(80, 80);
 
-    cy.compareSnapshot("circle highlight double move", { errorThreshold: 0.05 });
+    cy.compareSnapshot("circle highlight double move", {
+      errorThreshold: 0.05,
+    });
   });
 
   it("keeps selected state on circle after hovering away from circle", () => {
