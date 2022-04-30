@@ -1,9 +1,10 @@
 import type { Shape } from "./shapes";
 
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import { drawShape, highlightShape, selectShape } from "./func/draw";
 import { isPointInShape } from "./func/utils";
+import useCanvas from "./hooks/useCanvas";
 
 /**
  * @param {Object} AppProps  Props for root level component. Used to pass mocked context for jest runtime
@@ -13,19 +14,8 @@ type AppProps = {
 };
 
 export const App = (props: AppProps) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [context, setContext] = useState<CanvasRenderingContext2D | null>(
-    props.context || null
-  );
-
+  const [canvasRef, context] = useCanvas(props.context);
   const [shapes, setShapes] = useState<Shape[]>([]);
-
-  useEffect(() => {
-    if (!context && canvasRef.current) {
-      const ctx = canvasRef.current.getContext("2d");
-      setContext(ctx);
-    }
-  }, []);
 
   useEffect(() => {
     if (context && canvasRef.current) {
@@ -81,7 +71,7 @@ export const App = (props: AppProps) => {
         }
       };
     }
-  }, [context, shapes]);
+  }, [context, shapes, canvasRef]);
 
   function onCircleClickHandler() {
     if (!context) throw new Error("context not defined!");
