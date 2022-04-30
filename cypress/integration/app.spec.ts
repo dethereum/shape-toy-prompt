@@ -21,60 +21,6 @@ describe("The App", () => {
     cy.compareSnapshot("rect drawn", { errorThreshold: 0.05 });
   });
 
-  it("highlights a rect on hover of rect", () => {
-    cy.visit("http://localhost:3000");
-    cy.findByRole("button", { name: /add rectangle/i }).click();
-
-    cy.findByRole("img", {
-      name: /draw shapes here/i,
-    }).realMouseMove(40, 50);
-
-    cy.compareSnapshot("rect highlight", { errorThreshold: 0.05 });
-  });
-
-  it("does not highlight again on rehover of rect", () => {
-    cy.visit("http://localhost:3000");
-    cy.findByRole("button", { name: /add rectangle/i }).click();
-
-    cy.findByRole("img", {
-      name: /draw shapes here/i,
-    }).realMouseMove(40, 50);
-
-    cy.findByRole("img", {
-      name: /draw shapes here/i,
-    }).realMouseMove(45, 55);
-
-    cy.compareSnapshot("rect highlight double move", { errorThreshold: 0.05 });
-  });
-
-  it("highlights a circle on hover of circle", () => {
-    cy.visit("http://localhost:3000");
-    cy.findByRole("button", { name: /add circle/i }).click();
-
-    cy.findByRole("img", {
-      name: /draw shapes here/i,
-    }).realMouseMove(75, 75);
-
-    cy.compareSnapshot("circle highlight", { errorThreshold: 0.05 });
-  });
-
-  it("does not highlight again on rehover of circle", () => {
-    cy.visit("http://localhost:3000");
-    cy.findByRole("button", { name: /add circle/i }).click();
-
-    cy.findByRole("img", {
-      name: /draw shapes here/i,
-    }).realMouseMove(75, 75);
-
-    cy.findByRole("img", {
-      name: /draw shapes here/i,
-    }).realMouseMove(80, 80);
-
-    cy.compareSnapshot("circle highlight double move", {
-      errorThreshold: 0.05,
-    });
-  });
-
   it("keeps selected state on circle after hovering away from circle", () => {
     cy.visit("http://localhost:3000");
     cy.findByRole("button", { name: /add circle/i }).click();
