@@ -73,7 +73,11 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         },
         {
           ...state.entities,
-          [action.payload.id]: { ...action.payload, isSelected: true },
+          [action.payload.id]: {
+            ...action.payload,
+            isSelected: true,
+            isHighlighted: false,
+          },
         }
       );
 
@@ -81,6 +85,8 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         ...state,
         selected: [action.payload.id],
         entities,
+        highlighted:
+          action.payload.id == state.highlighted ? "" : state.highlighted,
       };
     case "MULTI_SELECT":
       return {
@@ -102,8 +108,11 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
           [action.payload.id]: {
             ...action.payload,
             isSelected: false,
+            isHighlighted: true,
           },
         },
+        selected: state.selected.filter((s) => action.payload.id !== s),
+        highlighted: action.payload.id,
       };
     case "DESELECT_ALL":
       return {
