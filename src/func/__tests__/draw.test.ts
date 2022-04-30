@@ -1,7 +1,6 @@
 /**
  * @jest-environment jsdom
  */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import type { Shape } from "../../shapes";
 import { drawShape, selectShape } from "../draw";
 
@@ -26,53 +25,50 @@ const rect: Shape = {
   isSelected: false,
 };
 
-let canvas: HTMLCanvasElement;
-let ctx: CanvasRenderingContext2D | null;
-
-beforeEach(function () {
-  canvas = document.createElement("canvas");
-  ctx = canvas.getContext("2d");
-});
-
 describe("drawShape", () => {
+  let canvas: HTMLCanvasElement;
+  let ctx: CanvasRenderingContext2D;
+
+  beforeEach(function () {
+    canvas = document.createElement("canvas");
+    const c = canvas.getContext("2d");
+    if (!c) throw new Error("context was not mocked");
+
+    ctx = c;
+  });
+
   describe("circle", () => {
     it("calls fillStyle method first", () => {
       expect.assertions(1);
-
-      if (!ctx) throw new Error("context was not mocked");
 
       drawShape(ctx, circle);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[0]["type"]).toStrictEqual("fillStyle");
+      expect(events[0]["type"]).toBe("fillStyle");
     });
 
     it("calls beginPath method second", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       drawShape(ctx, circle);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[1]["type"]).toStrictEqual("beginPath");
+      expect(events[1]["type"]).toBe("beginPath");
     });
 
     it("calls arc method third", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       drawShape(ctx, circle);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[2]["type"]).toStrictEqual("arc");
+      expect(events[2]["type"]).toBe("arc");
     });
 
     it("calls arc method with expected props", () => {
@@ -87,8 +83,6 @@ describe("drawShape", () => {
         anticlockwise: true,
       };
 
-      if (!ctx) throw new Error("context was not mocked");
-
       drawShape(ctx, circle);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
@@ -100,20 +94,16 @@ describe("drawShape", () => {
     it("calls fill method last", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       drawShape(ctx, circle);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[events.length - 1]["type"]).toStrictEqual("fill");
+      expect(events[events.length - 1]["type"]).toBe("fill");
     });
 
     it("calls ctx four times when drawing a circle", () => {
       expect.assertions(1);
-
-      if (!ctx) throw new Error("context was not mocked");
 
       drawShape(ctx, circle);
 
@@ -128,27 +118,23 @@ describe("drawShape", () => {
     it("calls fillStyle method first when drawing a rectangle", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       drawShape(ctx, rect);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[0]["type"]).toStrictEqual("fillStyle");
+      expect(events[0]["type"]).toBe("fillStyle");
     });
 
     it("calls fillRect method second when drawing a rect", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       drawShape(ctx, rect);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[1]["type"]).toStrictEqual("fillRect");
+      expect(events[1]["type"]).toBe("fillRect");
     });
 
     it("calls fillRect method with expected props when drawing a rect", () => {
@@ -159,8 +145,6 @@ describe("drawShape", () => {
         width: rect.width,
         ...rect.point,
       };
-
-      if (!ctx) throw new Error("context was not mocked");
 
       drawShape(ctx, rect);
 
@@ -173,8 +157,6 @@ describe("drawShape", () => {
     it("calls ctx twice when drawing a rectangle", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       drawShape(ctx, rect);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
@@ -186,57 +168,60 @@ describe("drawShape", () => {
 });
 
 describe("selectShape", () => {
+  let canvas: HTMLCanvasElement;
+  let ctx: CanvasRenderingContext2D;
+
+  beforeEach(function () {
+    canvas = document.createElement("canvas");
+    const c = canvas.getContext("2d");
+    if (!c) throw new Error("context was not mocked");
+
+    ctx = c;
+  });
+
   describe("circle", () => {
     it("calls strokeStyle method first", () => {
       expect.assertions(1);
-
-      if (!ctx) throw new Error("context was not mocked");
 
       selectShape(ctx, circle);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[0]["type"]).toStrictEqual("strokeStyle");
+      expect(events[0]["type"]).toBe("strokeStyle");
     });
 
     it("calls lineWidth method second", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       selectShape(ctx, circle);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[1]["type"]).toStrictEqual("lineWidth");
+      expect(events[1]["type"]).toBe("lineWidth");
     });
 
     it("calls beginPath method third", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       selectShape(ctx, circle);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[2]["type"]).toStrictEqual("beginPath");
+      expect(events[2]["type"]).toBe("beginPath");
     });
 
     it("calls arc method fourth", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       selectShape(ctx, circle);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[3]["type"]).toStrictEqual("arc");
+      expect(events[3]["type"]).toBe("arc");
     });
 
     it("calls arc method with expected props", () => {
@@ -251,8 +236,6 @@ describe("selectShape", () => {
         endAngle: 6.283185307179586,
       };
 
-      if (!ctx) throw new Error("context was not mocked");
-
       selectShape(ctx, circle);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
@@ -264,20 +247,16 @@ describe("selectShape", () => {
     it("calls stroke method last", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       selectShape(ctx, circle);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[events.length - 1]["type"]).toStrictEqual("stroke");
+      expect(events[events.length - 1]["type"]).toBe("stroke");
     });
 
     it("calls context five times", () => {
       expect.assertions(1);
-
-      if (!ctx) throw new Error("context was not mocked");
 
       selectShape(ctx, circle);
 
@@ -292,40 +271,34 @@ describe("selectShape", () => {
     it("calls strokeStyle method first", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       selectShape(ctx, rect);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[0]["type"]).toStrictEqual("strokeStyle");
+      expect(events[0]["type"]).toBe("strokeStyle");
     });
 
     it("calls lineWidth method second", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       selectShape(ctx, rect);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[1]["type"]).toStrictEqual("lineWidth");
+      expect(events[1]["type"]).toBe("lineWidth");
     });
 
     it("calls strokeRect method last", () => {
       expect.assertions(1);
 
-      if (!ctx) throw new Error("context was not mocked");
-
       selectShape(ctx, rect);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
       const events: any[] = ctx.__getEvents();
 
-      expect(events[events.length - 1]["type"]).toStrictEqual("strokeRect");
+      expect(events[events.length - 1]["type"]).toBe("strokeRect");
     });
 
     it("calls strokeRect method with expected props", () => {
@@ -337,8 +310,6 @@ describe("selectShape", () => {
         ...rect.point,
       };
 
-      if (!ctx) throw new Error("context was not mocked");
-
       selectShape(ctx, rect);
 
       // @ts-expect-error these methods on the mock dont exist on the real rendering context
@@ -349,8 +320,6 @@ describe("selectShape", () => {
 
     it("calls context thrice", () => {
       expect.assertions(1);
-
-      if (!ctx) throw new Error("context was not mocked");
 
       selectShape(ctx, rect);
 

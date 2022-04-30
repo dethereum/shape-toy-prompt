@@ -1,56 +1,61 @@
 import type { Shape } from "../../shapes";
 import { isPointInShape } from "../utils";
+
 describe("isPointInShape", () => {
-  const circle: Shape = {
-    radius: 2,
-    point: {
-      x: 8,
-      y: 2,
-    },
-    color: "black",
-    isSelected: false,
-  };
+  describe("circle", () => {
+    const circle: Shape = {
+      radius: 2,
+      point: {
+        x: 8,
+        y: 2,
+      },
+      color: "black",
+      isSelected: false,
+    };
 
-  const rectangle: Shape = {
-    height: 2,
-    width: 3,
-    point: {
-      x: 5.5,
-      y: 1,
-    },
-    color: "black",
-    isSelected: false,
-  };
+    it("returns false when point is outside", () => {
+      expect.assertions(1);
 
-  it("returns false when point is outside of circle", () => {
-    const p = { x: 4, y: 2 };
+      const result = isPointInShape({ x: 4, y: 2 }, circle);
 
-    const result = isPointInShape(p, circle);
+      expect(result).toBe(false);
+    });
 
-    expect(result).toBe(false);
+    it("returns true when point is inside", () => {
+      expect.assertions(1);
+
+      const result = isPointInShape({ x: 9, y: 3.5 }, circle);
+
+      expect(result).toBe(true);
+    });
   });
 
-  it("returns true when point is inside of circle", () => {
-    const p = { x: 9, y: 3.5 };
+  describe("rectangle", () => {
+    const rectangle: Shape = {
+      height: 2,
+      width: 3,
+      point: {
+        x: 5.5,
+        y: 1,
+      },
+      color: "black",
+      isSelected: false,
+    };
 
-    const result = isPointInShape(p, circle);
+    it("returns false when point is outside", () => {
+      expect.assertions(1);
 
-    expect(result).toBe(true);
-  });
+      const result = isPointInShape({ x: 2, y: 2 }, rectangle);
 
-  it("returns false when point is outside of rectangle", () => {
-    const p = { x: 2, y: 2 };
+      expect(result).toBe(false);
+    });
 
-    const result = isPointInShape(p, rectangle);
+    it("returns true when point is inside", () => {
+      expect.assertions(1);
 
-    expect(result).toBe(false);
-  });
+      const result = isPointInShape({ x: 6, y: 2 }, rectangle);
 
-  it("returns true when point is inside of rectangle", () => {
-    const p = { x: 6, y: 2 };
-
-    const result = isPointInShape(p, rectangle);
-
-    expect(result).toBe(true);
+      expect(result).toBe(true);
+    });
   });
 });
