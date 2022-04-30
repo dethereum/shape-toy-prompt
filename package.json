@@ -9,8 +9,8 @@
     "test": "jest",
     "lint": "eslint . --ext .tsx,.js,.ts",
     "prepare": "husky install",
-    "cy:open": "cypress open --env type=actual",
-    "cy:run": "cypress run",
+    "cy:open": "cypress open --env type=actual --browser chrome",
+    "cy:run": "cypress run --env type=actual --browser chrome",
     "cy": "start-server-and-test start http://localhost:3000 cy:run"
   },
   "repository": {
