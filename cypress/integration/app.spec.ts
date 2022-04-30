@@ -7,7 +7,7 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).click(75, 75);
 
-    cy.compareSnapshot("circle drawn", { errorThreshold: 0.1 });
+    cy.compareSnapshot("circle drawn", { errorThreshold: 0.05 });
   });
 
   it("selects a rect on click of rect", () => {
@@ -18,7 +18,7 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).click(40, 50);
 
-    cy.compareSnapshot("rect drawn", { errorThreshold: 0.1 });
+    cy.compareSnapshot("rect drawn", { errorThreshold: 0.05 });
   });
 
   it("highlights a rect on hover of rect", () => {
@@ -29,7 +29,7 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).realMouseMove(40, 50);
 
-    cy.compareSnapshot("rect highlight", { errorThreshold: 0.1 });
+    cy.compareSnapshot("rect highlight", { errorThreshold: 0.05 });
   });
 
   it("does not highlight again on rehover of rect", () => {
@@ -44,7 +44,7 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).realMouseMove(45, 55);
 
-    cy.compareSnapshot("rect highlight double move", { errorThreshold: 0.1 });
+    cy.compareSnapshot("rect highlight double move", { errorThreshold: 0.05 });
   });
 
   it("highlights a circle on hover of circle", () => {
@@ -55,7 +55,7 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).realMouseMove(75, 75);
 
-    cy.compareSnapshot("circle highlight", { errorThreshold: 0.1 });
+    cy.compareSnapshot("circle highlight", { errorThreshold: 0.05 });
   });
 
   it("does not highlight again on rehover of circle", () => {
@@ -70,7 +70,7 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).realMouseMove(80, 80);
 
-    cy.compareSnapshot("circle highlight double move", { errorThreshold: 0.1 });
+    cy.compareSnapshot("circle highlight double move", { errorThreshold: 0.05 });
   });
 
   it("keeps selected state on circle after hovering away from circle", () => {
@@ -85,7 +85,7 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).realMouseMove(700, 700);
 
-    cy.compareSnapshot("circle hover away", { errorThreshold: 0.1 });
+    cy.compareSnapshot("circle hover away", { errorThreshold: 0.05 });
   });
 
   it("keeps selected state on rectangle after hovering on rectangle", () => {
@@ -100,7 +100,7 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).realMouseMove(75, 75);
 
-    cy.compareSnapshot("rectangle hover", { errorThreshold: 0.1 });
+    cy.compareSnapshot("rectangle hover", { errorThreshold: 0.05 });
   });
 
   it("deselects rectangle when clicking selected rectangle", () => {
@@ -115,7 +115,7 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).click(40, 50);
 
-    cy.compareSnapshot("rectangle deselect", { errorThreshold: 0.1 });
+    cy.compareSnapshot("rectangle deselect", { errorThreshold: 0.05 });
   });
 
   it("deselects circle when clicking selected circle", () => {
@@ -130,7 +130,7 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).click(75, 75);
 
-    cy.compareSnapshot("circle deselect", { errorThreshold: 0.1 });
+    cy.compareSnapshot("circle deselect", { errorThreshold: 0.05 });
   });
 
   it("deselects circle when clicking outside of selected circle", () => {
@@ -145,7 +145,7 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).click(300, 300);
 
-    cy.compareSnapshot("circle canvas deselect", { errorThreshold: 0.1 });
+    cy.compareSnapshot("circle canvas deselect", { errorThreshold: 0.05 });
   });
 
   it("deselects rectangle when clicking outside of selected rectangle", () => {
@@ -160,6 +160,6 @@ describe("The App", () => {
       name: /draw shapes here/i,
     }).click(300, 300);
 
-    cy.compareSnapshot("rectangle canvas deselect", { errorThreshold: 0.1 });
+    cy.compareSnapshot("rectangle canvas deselect", { errorThreshold: 0.05 });
   });
 });
