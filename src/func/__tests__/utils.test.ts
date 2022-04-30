@@ -5,6 +5,7 @@ import { isPointInShape } from "../utils";
 describe("isPointInShape", () => {
   describe("circle", () => {
     const circle: Shape = {
+      id: "V1StGXR8_Z5jdHi6",
       radius: 2,
       point: {
         x: 8,
@@ -12,6 +13,7 @@ describe("isPointInShape", () => {
       },
       color: "black",
       isSelected: false,
+      isHighlighted: false,
     };
 
     it("returns false when point is outside", () => {
@@ -33,6 +35,7 @@ describe("isPointInShape", () => {
 
   describe("rectangle", () => {
     const rectangle: Shape = {
+      id: "jdHi6B-myTV1StGX",
       height: 2,
       width: 3,
       point: {
@@ -41,6 +44,7 @@ describe("isPointInShape", () => {
       },
       color: "black",
       isSelected: false,
+      isHighlighted: false,
     };
 
     it("returns false when point is outside", () => {

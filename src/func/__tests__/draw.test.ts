@@ -6,6 +6,7 @@ import type { Shape } from "../../shapes";
 import { drawShape, selectShape } from "../draw";
 
 const circle: Shape = {
+  id: "V1StGXR8_Z5jdHi6",
   radius: 5,
   point: {
     x: 2,
@@ -13,9 +14,11 @@ const circle: Shape = {
   },
   color: "black",
   isSelected: false,
+  isHighlighted: false,
 };
 
 const rect: Shape = {
+  id: "jdHi6B-myTV1StGX",
   point: {
     x: 5,
     y: 10,
@@ -24,6 +27,7 @@ const rect: Shape = {
   height: 8,
   color: "black",
   isSelected: false,
+  isHighlighted: false,
 };
 
 describe("drawShape", () => {

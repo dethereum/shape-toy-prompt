@@ -1,9 +1,9 @@
 import type { RefObject } from "react";
 import type { Shape } from "../shapes";
 
+import { nanoid } from "nanoid";
 import { useEffect, useState } from "react";
 
-import { drawShape } from "../func/draw";
 import { makeDownHandler, makeMoveHandler } from "../func/handlers";
 
 const useShapes = (
@@ -36,6 +36,7 @@ const useShapes = (
     if (!ctx) throw new Error("context not defined!");
 
     const circle: Shape = {
+      id: nanoid(16),
       radius: 50,
       point: {
         x: 75,
@@ -43,6 +44,7 @@ const useShapes = (
       },
       color: "black",
       isSelected: false,
+      isHighlighted: false,
     };
 
     setShapes([circle]);
@@ -52,11 +54,13 @@ const useShapes = (
     if (!ctx) throw new Error("context not defined!");
 
     const rect: Shape = {
+      id: nanoid(16),
       height: 100,
       width: 100,
       point: { x: 25, y: 25 },
       color: "black",
       isSelected: false,
+      isHighlighted: false,
     };
 
     setShapes([rect]);

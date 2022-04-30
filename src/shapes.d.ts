@@ -8,9 +8,11 @@ export type Point = {
 };
 
 type BaseShape = {
+  id: string;
   point: Point;
   color: string;
   isSelected: boolean;
+  isHighlighted: boolean;
 };
 
 type Circle = {
