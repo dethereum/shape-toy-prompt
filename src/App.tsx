@@ -16,7 +16,7 @@ type AppProps = {
 
 export const App = (props: AppProps) => {
   const [canvas, ctx] = useCanvas(props.context);
-  const [shapes, { onAddCircle, onAddRectangle }] = useShapes(canvas);
+  const [shapes, { onAddCircle, onAddRectangle }] = useShapes();
 
   useEffect(() => {
     if (ctx && shapes.length > 0) {

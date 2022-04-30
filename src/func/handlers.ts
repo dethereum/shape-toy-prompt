@@ -19,8 +19,9 @@ export const makeDownHandler =
   };
 
 export const makeMoveHandler =
-  (shapes: Shape[], dispatch: Dispatch<RootAction>) =>
-  ({ offsetX, offsetY }: MouseEvent) => {
+  (shapes: Shape[], dispatch: Dispatch<RootAction>) => (ev: MouseEvent) => {
+    const { offsetX, offsetY } = ev;
+
     const point = {
       x: offsetX,
       y: offsetY,
@@ -32,6 +33,7 @@ export const makeMoveHandler =
 
       // if point in shape and unselected highlight and exit mouse handler
       if (isPointInShape(point, s)) {
+        console.log("ev", ev);
         dispatch({ type: "HIGHLIGHT", payload: s });
         return;
       }

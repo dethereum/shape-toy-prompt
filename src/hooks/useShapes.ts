@@ -1,4 +1,3 @@
-import type { RefObject } from "react";
 import type { Shape } from "../shapes";
 
 import { nanoid } from "nanoid";
@@ -7,30 +6,24 @@ import { useEffect, useReducer } from "react";
 import { makeDownHandler, makeMoveHandler } from "../func/handlers";
 import { getShapes, initialState, reducer } from "../func/reducer";
 
-const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
+const useShapes = () => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const shapes = getShapes(state);
 
   useEffect(() => {
-    const ref = canvasRef.current;
+    const mouseDownHandler = makeDownHandler(shapes, dispatch);
 
-    if (ref) {
-      const mouseDownHandler = makeDownHandler(shapes, dispatch);
+    const mouseMoveHandler = makeMoveHandler(shapes, dispatch);
 
-      const mouseMoveHandler = makeMoveHandler(shapes, dispatch);
+    window.addEventListener("mousedown", mouseDownHandler);
+    window.addEventListener("mousemove", mouseMoveHandler);
 
-      ref.addEventListener("mousedown", mouseDownHandler);
-      ref.addEventListener("mousemove", mouseMoveHandler);
-
-      return () => {
-        if (ref) {
-          ref.removeEventListener("mousedown", mouseDownHandler);
-          ref.removeEventListener("mousemove", mouseMoveHandler);
-        }
-      };
-    }
-  }, [canvasRef, shapes]);
+    return () => {
+      window.removeEventListener("mousedown", mouseDownHandler);
+      window.removeEventListener("mousemove", mouseMoveHandler);
+    };
+  }, [shapes]);
 
   function onAddCircle() {
     const circle: Shape = {
