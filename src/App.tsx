@@ -21,7 +21,7 @@ export const App = (props: AppProps) => {
     useShapes(canvas);
 
   useEffect(() => {
-    if (ctx && shapes.length > 0) {
+    if (ctx) {
       ctx.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
 
       for (const s of shapes) {
