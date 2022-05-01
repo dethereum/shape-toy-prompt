@@ -1,7 +1,5 @@
 import type { RefObject } from "react";
-import type { Shape } from "../shapes";
 
-import { nanoid } from "nanoid";
 import { useEffect, useReducer, useState } from "react";
 
 import { getShapes, initialState, reducer } from "../func/reducer";
@@ -98,41 +96,7 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
     }
   }, [canvasRef, shapes, isMouseDown, offset.x, offset.y]);
 
-  function onAddCircle() {
-    const circle: Shape = {
-      id: nanoid(16),
-      radius: 50,
-      point: {
-        x: 75,
-        y: 75,
-      },
-      color: "black",
-      isSelected: false,
-      isHighlighted: false,
-    };
-
-    dispatch({ type: "ADD", payload: circle });
-  }
-
-  function onAddRectangle() {
-    const rect: Shape = {
-      id: nanoid(16),
-      height: 100,
-      width: 100,
-      point: { x: 25, y: 25 },
-      color: "black",
-      isSelected: false,
-      isHighlighted: false,
-    };
-
-    dispatch({ type: "ADD", payload: rect });
-  }
-
-  function onDeleteShape(s: Shape) {
-    dispatch({ type: "DELETE", payload: s });
-  }
-
-  return [shapes, { onAddCircle, onAddRectangle, onDeleteShape }] as const;
+  return [shapes, dispatch] as const;
 };
 
 export default useShapes;

@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 
+import { ShapeAdder } from "./components/ShapeAdder";
 import { ShapeEditor } from "./components/ShapeEditor";
 import { drawShape, highlightShape, selectShape } from "./func/draw";
 import useCanvas from "./hooks/useCanvas";
@@ -17,8 +18,7 @@ type AppProps = {
 
 export const App = (props: AppProps) => {
   const [canvas, ctx] = useCanvas(props.context);
-  const [shapes, { onAddCircle, onAddRectangle, onDeleteShape }] =
-    useShapes(canvas);
+  const [shapes, dispatch] = useShapes(canvas);
 
   useEffect(() => {
     if (ctx) {
@@ -40,8 +40,7 @@ export const App = (props: AppProps) => {
 
   return (
     <>
-      <button onClick={onAddCircle}>Add Circle</button>
-      <button onClick={onAddRectangle}>Add Rectangle</button>
+      <ShapeAdder dispatch={dispatch}></ShapeAdder>
       <canvas
         width={CANVAS_WIDTH}
         height={CANVAS_HEIGHT}
@@ -53,9 +52,7 @@ export const App = (props: AppProps) => {
         {shapes
           .filter((s) => s.isSelected)
           .map((s) => {
-            return (
-              <ShapeEditor shape={s} key={s.id} onDeleteShape={onDeleteShape} />
-            );
+            return <ShapeEditor shape={s} key={s.id} dispatch={dispatch} />;
           })}
       </div>
     </>
