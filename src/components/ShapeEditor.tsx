@@ -16,6 +16,10 @@ export const ShapeEditor = ({ shape, dispatch }: ShapeEditorProps) => {
   }
 
   const isCircle = "radius" in shape;
+  const {
+    id,
+    point: { x, y },
+  } = shape;
 
   return (
     <div className="border-2 border-gray-600 px-6 py-4">
@@ -30,7 +34,28 @@ export const ShapeEditor = ({ shape, dispatch }: ShapeEditorProps) => {
         </button>
         <p className="my-auto w-24 ml-8">{isCircle ? "Circle" : "Rectangle"}</p>
       </div>
-      <p>inputs here</p>
+      <div className="mt-4 flex flex-col gap-3">
+        <div className="flex flex-row justify-between px-5">
+          <p>center x:</p>
+          <input
+            className="w-1/6"
+            aria-label={`center-x-${id}`}
+            type="number"
+            readOnly
+            value={x}
+          />
+        </div>
+        <div className="flex flex-row justify-between px-5">
+          <p>center y:</p>
+          <input
+            className="w-1/6"
+            aria-label={`center-y-${id}`}
+            type="number"
+            readOnly
+            value={y}
+          />
+        </div>
+      </div>
     </div>
   );
 };
