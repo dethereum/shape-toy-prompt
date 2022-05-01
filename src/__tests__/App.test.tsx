@@ -22,6 +22,7 @@ describe("app", () => {
     expect(canvas).toMatchInlineSnapshot(`
       <canvas
         aria-label="Draw shapes here"
+        class="border-2 border-gray-600"
         height="500"
         role="img"
         width="500"
