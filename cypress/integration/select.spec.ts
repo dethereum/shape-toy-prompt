@@ -8,7 +8,10 @@ describe("select", () => {
         name: /draw shapes here/i,
       }).click(75, 75);
 
-      cy.compareSnapshot("circle drawn", { errorThreshold: 0.05 });
+      cy.compareSnapshot("circle drawn", {
+        errorThreshold: 0.05,
+        capture: "fullPage",
+      });
     });
 
     it("keeps selected state on circle after hovering away from circle", () => {
@@ -23,7 +26,10 @@ describe("select", () => {
         name: /draw shapes here/i,
       }).realMouseMove(700, 700);
 
-      cy.compareSnapshot("circle hover away", { errorThreshold: 0.05 });
+      cy.compareSnapshot("circle hover away", {
+        errorThreshold: 0.05,
+        capture: "fullPage",
+      });
     });
 
     it("deselects circle when clicking selected circle", () => {
@@ -38,7 +44,10 @@ describe("select", () => {
         name: /draw shapes here/i,
       }).click(75, 75);
 
-      cy.compareSnapshot("circle deselect", { errorThreshold: 0.05 });
+      cy.compareSnapshot("circle deselect", {
+        errorThreshold: 0.05,
+        capture: "fullPage",
+      });
     });
 
     it("deselects circle when clicking outside of selected circle", () => {
@@ -53,7 +62,10 @@ describe("select", () => {
         name: /draw shapes here/i,
       }).click(300, 300);
 
-      cy.compareSnapshot("circle canvas deselect", { errorThreshold: 0.05 });
+      cy.compareSnapshot("circle canvas deselect", {
+        errorThreshold: 0.05,
+        capture: "fullPage",
+      });
     });
   });
 
@@ -66,7 +78,10 @@ describe("select", () => {
         name: /draw shapes here/i,
       }).click(40, 50);
 
-      cy.compareSnapshot("rect drawn", { errorThreshold: 0.05 });
+      cy.compareSnapshot("rect drawn", {
+        errorThreshold: 0.05,
+        capture: "fullPage",
+      });
     });
 
     it("keeps selected state on rectangle after hovering on rectangle", () => {
@@ -81,7 +96,10 @@ describe("select", () => {
         name: /draw shapes here/i,
       }).realMouseMove(75, 75);
 
-      cy.compareSnapshot("rectangle hover", { errorThreshold: 0.05 });
+      cy.compareSnapshot("rectangle hover", {
+        errorThreshold: 0.05,
+        capture: "fullPage",
+      });
     });
 
     it("deselects rectangle when clicking selected rectangle", () => {
@@ -96,7 +114,10 @@ describe("select", () => {
         name: /draw shapes here/i,
       }).click(40, 50);
 
-      cy.compareSnapshot("rectangle deselect", { errorThreshold: 0.05 });
+      cy.compareSnapshot("rectangle deselect", {
+        errorThreshold: 0.05,
+        capture: "fullPage",
+      });
     });
 
     it("deselects rectangle when clicking outside of selected rectangle", () => {
@@ -111,7 +132,10 @@ describe("select", () => {
         name: /draw shapes here/i,
       }).click(300, 300);
 
-      cy.compareSnapshot("rectangle canvas deselect", { errorThreshold: 0.05 });
+      cy.compareSnapshot("rectangle canvas deselect", {
+        errorThreshold: 0.05,
+        capture: "fullPage",
+      });
     });
   });
 });
