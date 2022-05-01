@@ -18,7 +18,7 @@ export const App = (props: AppProps) => {
   const [shapes, selected, dispatch] = useShapes(canvas);
 
   return (
-    <div className="flex flex-row justify-center gap-8 mt-16">
+    <div className="flex flex-row justify-start gap-8 px-32 pt-16">
       <ShapeAdder dispatch={dispatch}></ShapeAdder>
       <Canvas shapes={shapes} ctx={ctx} canvas={canvas}></Canvas>
       <ShapeEditorList shapes={selected} dispatch={dispatch} />
