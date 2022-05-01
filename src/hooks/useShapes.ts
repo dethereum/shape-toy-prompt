@@ -1,20 +1,14 @@
 import type { RefObject } from "react";
-import type { Point, Shape } from "../shapes";
+import type { Shape } from "../shapes";
 
 import { nanoid } from "nanoid";
 import { useEffect, useReducer, useState } from "react";
 
 import { getShapes, initialState, reducer } from "../func/reducer";
-import {
-  getMouseDownAction,
-  isPointInShape,
-  logMouseEvent,
-  MOUSE_MOVE_LIMIT,
-} from "../func/utils";
+import { getMouseDownAction, isPointInShape } from "../func/utils";
 
 const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
   const [isMouseDown, setMouseDown] = useState(false);
-  const [mouseMoveLogCount, setMouseMoveLogCount] = useState(0);
   const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [state, dispatch] = useReducer(reducer, initialState);
 
@@ -24,62 +18,46 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
     const ref = canvasRef.current;
 
     if (ref) {
-      const rect = ref?.getBoundingClientRect();
-
-      const mouseDownHandler = (ev: MouseEvent) => {
-        console.log("drawing side effect -> rect\n", rect);
-
+      const mouseDownHandler = ({
+        clientX,
+        clientY,
+        shiftKey,
+        offsetX,
+        offsetY,
+      }: MouseEvent) => {
         setMouseDown(true);
-        setOffset({ x: ev.clientX, y: ev.clientY });
-        setMouseMoveLogCount(0);
+        setOffset({ x: clientX, y: clientY });
 
-        // always log mouse down
-        const point = logMouseEvent(
-          "mouseDown",
-          mouseMoveLogCount,
-          setMouseMoveLogCount,
-          ev
+        dispatch(
+          getMouseDownAction(shapes, shiftKey, { x: offsetX, y: offsetY })
         );
-
-        const action = getMouseDownAction(shapes, ev.shiftKey, point);
-
-        dispatch(action);
       };
 
-      const mouseMoveHandler = (ev: MouseEvent) => {
-        // log mouseMove only when mouse down
-        const point = logMouseEvent(
-          "mouseMove",
-          mouseMoveLogCount,
-          setMouseMoveLogCount,
-          ev,
-          false
-        );
+      const mouseMoveHandler = ({
+        clientX,
+        clientY,
+        offsetX,
+        offsetY,
+      }: MouseEvent) => {
+        const point = {
+          x: offsetX,
+          y: offsetY,
+        };
 
         for (const s of shapes) {
           // selected shapes cannot be highlighed
           if (s.isSelected) {
-            if (isMouseDown && mouseMoveLogCount < MOUSE_MOVE_LIMIT) {
-              logMouseEvent(
-                "mouseMove",
-                mouseMoveLogCount,
-                setMouseMoveLogCount,
-                ev,
-                true,
-                s
-              );
+            if (isMouseDown) {
+              const dx = clientX - offset.x; // true movement along the x plane
+              const dy = clientY - offset.y; // true movement along the y plane
 
-              const dx = ev.clientX - offset.x; // true movement along the x plane
-              const dy = ev.clientY - offset.y; // true movement along the y plane
-
-              const movePoint: Point = {
+              const movePoint = {
                 x: dx + s.point.x,
                 y: dy + s.point.y,
               };
 
-              //try
-
-              setOffset({ x: ev.clientX, y: ev.clientY });
+              // after creating the move point update the offset with new mouse position
+              setOffset({ x: clientX, y: clientY });
 
               dispatch({
                 type: "MOVE",
@@ -118,7 +96,7 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
         }
       };
     }
-  }, [canvasRef, shapes, isMouseDown, mouseMoveLogCount, offset.x, offset.y]);
+  }, [canvasRef, shapes, isMouseDown, offset.x, offset.y]);
 
   function onAddCircle() {
     const circle: Shape = {

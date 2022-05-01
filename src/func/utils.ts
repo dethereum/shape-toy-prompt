@@ -1,8 +1,8 @@
-import type { Dispatch, SetStateAction } from "react";
+// import type { Dispatch, SetStateAction } from "react";
 import type { Point, Shape } from "../shapes";
 import type { RootAction } from "./reducer";
 
-export const MOUSE_MOVE_LIMIT = 1000;
+// export const MOUSE_MOVE_LIMIT = 1000;
 
 export const isPointInShape = ({ x, y }: Point, s: Shape): boolean => {
   const { point } = s;
@@ -40,8 +40,7 @@ export const getMouseDownAction = (
   return { type: "DESELECT_ALL" };
 };
 
-// dev utility function to debug mouse events
-export const logMouseEvent = (
+/* export const logMouseEvent = (
   name: "mouseDown" | "mouseMove",
   mouseMoveLogCount: number,
   mouseLogSet: Dispatch<SetStateAction<number>>,
@@ -109,3 +108,4 @@ export const logMouseEvent = (
 
   return offSetPoint;
 };
+ */
