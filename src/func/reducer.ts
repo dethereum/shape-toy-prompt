@@ -17,6 +17,11 @@ type MoveAction = {
   };
 };
 
+type DeleteAction = {
+  type: "DELETE";
+  payload: Shape;
+};
+
 type MultiSelectAction = {
   type: "MULTI_SELECT";
   payload: Shape;
@@ -48,7 +53,8 @@ export type RootAction =
   | DeselectAllAction
   | HighlightAction
   | RemoveHighlightAction
-  | MoveAction;
+  | MoveAction
+  | DeleteAction;
 
 export type RootState = {
   entities: Record<string, Shape>;
@@ -178,6 +184,18 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
           },
         },
       };
+    case "DELETE":
+      // eslint-disable-next-line no-case-declarations, @typescript-eslint/no-unused-vars
+      const { [action.payload.id]: removed, ...kept } = state.entities;
+
+      return {
+        ids: state.ids.filter((s) => s !== action.payload.id),
+        entities: kept,
+        selected: state.selected.filter((s) => s !== action.payload.id),
+        highlighted:
+          state.highlighted == action.payload.id ? "" : state.highlighted,
+      };
+
     default:
       return state;
   }

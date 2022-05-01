@@ -39,9 +39,7 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
         for (const s of shapes) {
           // selected shapes cannot be highlighed
           if (s.isSelected) {
-            console.log("mouseMoveHandler -> s.isSelected", s.isSelected);
             if (isMouseDown) {
-              console.log("mouseMoveHandler -> mousedown", isMouseDown);
               dispatch({ type: "MOVE", payload: { shape: s, point: point } });
             }
 
@@ -107,7 +105,11 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
     dispatch({ type: "ADD", payload: rect });
   }
 
-  return [shapes, { onAddCircle, onAddRectangle }] as const;
+  function onDeleteShape(s: Shape) {
+    dispatch({ type: "DELETE", payload: s });
+  }
+
+  return [shapes, { onAddCircle, onAddRectangle, onDeleteShape }] as const;
 };
 
 export default useShapes;

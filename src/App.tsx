@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 
+import { ShapeEditor } from "./components/ShapeEditor";
 import { drawShape, highlightShape, selectShape } from "./func/draw";
 import useCanvas from "./hooks/useCanvas";
 import useShapes from "./hooks/useShapes";
@@ -16,7 +17,8 @@ type AppProps = {
 
 export const App = (props: AppProps) => {
   const [canvas, ctx] = useCanvas(props.context);
-  const [shapes, { onAddCircle, onAddRectangle }] = useShapes(canvas);
+  const [shapes, { onAddCircle, onAddRectangle, onDeleteShape }] =
+    useShapes(canvas);
 
   useEffect(() => {
     if (ctx && shapes.length > 0) {
@@ -47,6 +49,15 @@ export const App = (props: AppProps) => {
         aria-label="Draw shapes here"
         ref={canvas}
       ></canvas>
+      <div>
+        {shapes
+          .filter((s) => s.isSelected)
+          .map((s) => {
+            return (
+              <ShapeEditor shape={s} key={s.id} onDeleteShape={onDeleteShape} />
+            );
+          })}
+      </div>
     </>
   );
 };
