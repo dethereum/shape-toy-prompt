@@ -5,10 +5,15 @@ import { nanoid } from "nanoid";
 import { useEffect, useReducer, useState } from "react";
 
 import { getShapes, initialState, reducer } from "../func/reducer";
-import { getMouseDownAction, isPointInShape } from "../func/utils";
+import {
+  getMouseDownAction,
+  isPointInShape,
+  logMouseEvent,
+} from "../func/utils";
 
 const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
   const [isMouseDown, setMouseDown] = useState(false);
+  const [mouseMoveLogCount, setMouseMoveLogCount] = useState(0);
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const shapes = getShapes(state);
@@ -17,29 +22,49 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
     const ref = canvasRef.current;
 
     if (ref) {
-      const mouseDownHandler = ({ offsetX, offsetY, shiftKey }: MouseEvent) => {
+      const rect = ref?.getBoundingClientRect();
+
+      const mouseDownHandler = (ev: MouseEvent) => {
+        console.log("drawing side effect -> rect\n", rect);
+
         setMouseDown(true);
+        setMouseMoveLogCount(0);
 
-        const point = {
-          x: offsetX,
-          y: offsetY,
-        };
+        // always log mouse down
+        const point = logMouseEvent(
+          "mouseDown",
+          mouseMoveLogCount,
+          setMouseMoveLogCount,
+          ev
+        );
 
-        const action = getMouseDownAction(shapes, shiftKey, point);
+        const action = getMouseDownAction(shapes, ev.shiftKey, point);
 
         dispatch(action);
       };
 
-      const mouseMoveHandler = ({ offsetX, offsetY }: MouseEvent) => {
-        const point = {
-          x: offsetX,
-          y: offsetY,
-        };
+      const mouseMoveHandler = (ev: MouseEvent) => {
+        // log mouseMove only when mouse down
+        const point = logMouseEvent(
+          "mouseMove",
+          mouseMoveLogCount,
+          setMouseMoveLogCount,
+          ev,
+          false
+        );
 
         for (const s of shapes) {
           // selected shapes cannot be highlighed
           if (s.isSelected) {
             if (isMouseDown) {
+              logMouseEvent(
+                "mouseMove",
+                mouseMoveLogCount,
+                setMouseMoveLogCount,
+                ev,
+                true,
+                s
+              );
               dispatch({ type: "MOVE", payload: { shape: s, point: point } });
             }
 
@@ -73,7 +98,7 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
         }
       };
     }
-  }, [canvasRef, shapes, isMouseDown]);
+  }, [canvasRef, shapes, isMouseDown, mouseMoveLogCount]);
 
   function onAddCircle() {
     const circle: Shape = {
