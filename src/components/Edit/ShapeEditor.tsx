@@ -1,4 +1,4 @@
-import type { Dispatch } from "react";
+import type { ChangeEvent, Dispatch } from "react";
 import type { RootAction } from "../../func/reducer";
 import type { Shape } from "../../shapes";
 
@@ -16,6 +16,16 @@ type ShapeEditorProps = {
 export const ShapeEditor = ({ shape, dispatch }: ShapeEditorProps) => {
   function onDeleteShape() {
     dispatch({ type: "DELETE", payload: shape });
+  }
+
+  function onColorChange(e: ChangeEvent<HTMLInputElement>) {
+    dispatch({
+      type: "UPDATE",
+      payload: {
+        ...shape,
+        color: e.target.value,
+      },
+    });
   }
 
   const {
@@ -72,6 +82,7 @@ export const ShapeEditor = ({ shape, dispatch }: ShapeEditorProps) => {
             aria-label={`color-${id}`}
             type="color"
             value={color}
+            onChange={onColorChange}
           />
         </div>
       </div>

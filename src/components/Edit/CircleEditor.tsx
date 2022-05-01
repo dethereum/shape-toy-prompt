@@ -1,4 +1,4 @@
-import type { Dispatch } from "react";
+import type { ChangeEvent, Dispatch } from "react";
 import type { RootAction } from "../../func/reducer";
 import type { Circle } from "../../shapes";
 
@@ -12,6 +12,16 @@ type CircleEditorProps = {
 export const CircleEditor = ({ shape, dispatch }: CircleEditorProps) => {
   const { id, radius } = shape;
 
+  function onRadiusChange(e: ChangeEvent<HTMLInputElement>) {
+    dispatch({
+      type: "UPDATE",
+      payload: {
+        ...shape,
+        radius: e.target.valueAsNumber,
+      },
+    });
+  }
+
   return (
     <div className="flex flex-row justify-between px-5">
       <p>radius:</p>
@@ -20,6 +30,7 @@ export const CircleEditor = ({ shape, dispatch }: CircleEditorProps) => {
         aria-label={`radius-${id}`}
         type="range"
         value={radius}
+        onChange={onRadiusChange}
       />
     </div>
   );

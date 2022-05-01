@@ -22,6 +22,11 @@ type DeleteAction = {
   payload: Shape;
 };
 
+type UpdateAction = {
+  type: "UPDATE";
+  payload: Shape;
+};
+
 type MultiSelectAction = {
   type: "MULTI_SELECT";
   payload: Shape;
@@ -54,7 +59,8 @@ export type RootAction =
   | HighlightAction
   | RemoveHighlightAction
   | MoveAction
-  | DeleteAction;
+  | DeleteAction
+  | UpdateAction;
 
 export type RootState = {
   entities: Record<string, Shape>;
@@ -198,7 +204,14 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         highlighted:
           state.highlighted == action.payload.id ? "" : state.highlighted,
       };
-
+    case "UPDATE":
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [action.payload.id]: action.payload,
+        },
+      };
     default:
       return state;
   }
