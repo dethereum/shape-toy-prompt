@@ -171,15 +171,18 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         highlighted: "",
       };
     case "MOVE":
+      // eslint-disable-next-line no-case-declarations
+      const { point, shape } = action.payload;
+
       return {
         ...state,
         entities: {
           ...state.entities,
-          [action.payload.shape.id]: {
-            ...action.payload.shape,
+          [shape.id]: {
+            ...shape,
             point: {
-              x: action.payload.point.x,
-              y: action.payload.point.y,
+              x: point.x,
+              y: point.y,
             },
           },
         },

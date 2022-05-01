@@ -1,5 +1,5 @@
 import type { RefObject } from "react";
-import type { Shape } from "../shapes";
+import type { Point, Shape } from "../shapes";
 
 import { nanoid } from "nanoid";
 import { useEffect, useReducer, useState } from "react";
@@ -9,11 +9,13 @@ import {
   getMouseDownAction,
   isPointInShape,
   logMouseEvent,
+  MOUSE_MOVE_LIMIT,
 } from "../func/utils";
 
 const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
   const [isMouseDown, setMouseDown] = useState(false);
   const [mouseMoveLogCount, setMouseMoveLogCount] = useState(0);
+  const [offset, setOffset] = useState({ x: 0, y: 0 });
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const shapes = getShapes(state);
@@ -28,6 +30,7 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
         console.log("drawing side effect -> rect\n", rect);
 
         setMouseDown(true);
+        setOffset({ x: ev.clientX, y: ev.clientY });
         setMouseMoveLogCount(0);
 
         // always log mouse down
@@ -56,7 +59,7 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
         for (const s of shapes) {
           // selected shapes cannot be highlighed
           if (s.isSelected) {
-            if (isMouseDown) {
+            if (isMouseDown && mouseMoveLogCount < MOUSE_MOVE_LIMIT) {
               logMouseEvent(
                 "mouseMove",
                 mouseMoveLogCount,
@@ -65,7 +68,23 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
                 true,
                 s
               );
-              dispatch({ type: "MOVE", payload: { shape: s, point: point } });
+
+              const dx = ev.clientX - offset.x; // true movement along the x plane
+              const dy = ev.clientY - offset.y; // true movement along the y plane
+
+              const movePoint: Point = {
+                x: dx + s.point.x,
+                y: dy + s.point.y,
+              };
+
+              //try
+
+              setOffset({ x: ev.clientX, y: ev.clientY });
+
+              dispatch({
+                type: "MOVE",
+                payload: { shape: s, point: movePoint },
+              });
             }
 
             continue;
@@ -84,6 +103,7 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
 
       const mouseUpHandler = () => {
         setMouseDown(false);
+        setOffset({ x: 0, y: 0 });
       };
 
       ref.addEventListener("mousedown", mouseDownHandler);
@@ -98,7 +118,7 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
         }
       };
     }
-  }, [canvasRef, shapes, isMouseDown, mouseMoveLogCount]);
+  }, [canvasRef, shapes, isMouseDown, mouseMoveLogCount, offset.x, offset.y]);
 
   function onAddCircle() {
     const circle: Shape = {

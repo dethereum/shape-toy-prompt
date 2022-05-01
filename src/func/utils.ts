@@ -2,6 +2,8 @@ import type { Dispatch, SetStateAction } from "react";
 import type { Point, Shape } from "../shapes";
 import type { RootAction } from "./reducer";
 
+export const MOUSE_MOVE_LIMIT = 1000;
+
 export const isPointInShape = ({ x, y }: Point, s: Shape): boolean => {
   const { point } = s;
 
@@ -85,7 +87,10 @@ export const logMouseEvent = (
     y: pageY,
   };
 
-  if (isLogOn && (name == "mouseDown" || mouseMoveLogCount < 3)) {
+  if (
+    isLogOn &&
+    (name == "mouseDown" || mouseMoveLogCount < MOUSE_MOVE_LIMIT)
+  ) {
     console.log(`${name}Handler -> clientPoint`, clientPoint);
     console.log(`${name}Handler -> movementPoint`, movementPoint);
     console.log(`${name}Handler -> screenPoint`, screenPoint);
