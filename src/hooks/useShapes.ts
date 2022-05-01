@@ -2,7 +2,12 @@ import type { RefObject } from "react";
 
 import { useEffect, useReducer, useState } from "react";
 
-import { getShapes, initialState, reducer } from "../func/reducer";
+import {
+  getSelectedShapes,
+  getShapes,
+  initialState,
+  reducer,
+} from "../func/reducer";
 import { getMouseDownAction, isPointInShape } from "../func/utils";
 
 const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
@@ -11,6 +16,7 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   const shapes = getShapes(state);
+  const selected = getSelectedShapes(state);
 
   useEffect(() => {
     const ref = canvasRef.current;
@@ -96,7 +102,7 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
     }
   }, [canvasRef, shapes, isMouseDown, offset.x, offset.y]);
 
-  return [shapes, dispatch] as const;
+  return [shapes, selected, dispatch] as const;
 };
 
 export default useShapes;

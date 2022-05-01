@@ -211,13 +211,18 @@ export const initialState: RootState = {
   highlighted: "",
 };
 
-export const getShapes = (state: RootState): Shape[] => {
-  const shapes: Shape[] = [];
+const makeShapeSelector =
+  (key: "ids" | "selected") =>
+  (state: RootState): Shape[] => {
+    const shapes: Shape[] = [];
 
-  for (const id of state.ids) {
-    const s = state.entities[id];
-    if (s) shapes.push(s);
-  }
+    for (const id of state[key]) {
+      const s = state.entities[id];
+      if (s) shapes.push(s);
+    }
 
-  return shapes;
-};
+    return shapes;
+  };
+
+export const getShapes = makeShapeSelector("ids");
+export const getSelectedShapes = makeShapeSelector("selected");
