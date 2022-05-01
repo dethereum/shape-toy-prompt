@@ -18,10 +18,10 @@ export const App = (props: AppProps) => {
   const [shapes, selected, dispatch] = useShapes(canvas);
 
   return (
-    <>
+    <div className="flex flex-row justify-center gap-8 mt-16">
       <ShapeAdder dispatch={dispatch}></ShapeAdder>
       <Canvas shapes={shapes} ctx={ctx} canvas={canvas}></Canvas>
       <ShapeEditorList shapes={selected} dispatch={dispatch} />
-    </>
+    </div>
   );
 };

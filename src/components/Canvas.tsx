@@ -40,6 +40,7 @@ export const Canvas = ({ shapes, ctx, canvas }: CanvasProps) => {
       role="img"
       aria-label="Draw shapes here"
       ref={canvas}
+      className="border-2 border-gray-600"
     ></canvas>
   );
 };

@@ -15,12 +15,17 @@ export const ShapeEditor = ({ shape, dispatch }: ShapeEditorProps) => {
   }
 
   return (
-    <>
-      <div>
-        <button onClick={onDeleteShape}>Delete</button>
-        <p>{"radius" in shape ? "Circle" : "Rectangle"}</p>
+    <div className="border-2 border-gray-600 px-8 py-4">
+      <div className="flex flex-row justify-between">
+        <button
+          className="border-2 border-gray-600 px-12 py-2"
+          onClick={onDeleteShape}
+        >
+          Delete
+        </button>
+        <p className="ml-4">{"radius" in shape ? "Circle" : "Rectangle"}</p>
       </div>
       <p>inputs here</p>
-    </>
+    </div>
   );
 };

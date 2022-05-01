@@ -41,10 +41,24 @@ export const ShapeAdder = ({ dispatch }: ShapeAdderProps) => {
     });
   }
 
+  // use tuple to future proof adding more shapes
+  // doesn't account for the complexity of verifying a point in other shapes
+  const shapes = [
+    ["Circle", onAddCircle],
+    ["Rectangle", onAddRectangle],
+  ] as const;
+
   return (
-    <div>
-      <button onClick={onAddCircle}>Add Circle</button>
-      <button onClick={onAddRectangle}>Add Rectangle</button>
+    <div className="flex flex-col gap-2">
+      {shapes.map(([shape, onClick]) => {
+        return (
+          <button
+            className="border-2 border-gray-600 px-4 py-1"
+            key={shape}
+            onClick={onClick}
+          >{`Add ${shape}`}</button>
+        );
+      })}
     </div>
   );
 };
