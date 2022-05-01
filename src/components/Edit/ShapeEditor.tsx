@@ -1,9 +1,12 @@
 import type { Dispatch } from "react";
-import type { RootAction } from "../func/reducer";
-import type { Shape } from "../shapes";
+import type { RootAction } from "../../func/reducer";
+import type { Shape } from "../../shapes";
 
 import { TrashIcon } from "@heroicons/react/outline";
 import React from "react";
+
+import { CircleEditor } from "./CircleEditor";
+import { RectangleEditor } from "./RectangleEditor";
 
 type ShapeEditorProps = {
   shape: Shape;
@@ -15,7 +18,6 @@ export const ShapeEditor = ({ shape, dispatch }: ShapeEditorProps) => {
     dispatch({ type: "DELETE", payload: shape });
   }
 
-  const isCircle = "radius" in shape;
   const {
     id,
     point: { x, y },
@@ -32,7 +34,9 @@ export const ShapeEditor = ({ shape, dispatch }: ShapeEditorProps) => {
             <TrashIcon className="w-6 mr-1" /> <p>Delete</p>
           </div>
         </button>
-        <p className="my-auto w-24 ml-8">{isCircle ? "Circle" : "Rectangle"}</p>
+        <p className="my-auto w-24 ml-8">
+          {"radius" in shape ? "Circle" : "Rectangle"}
+        </p>
       </div>
       <div className="mt-4 flex flex-col gap-3">
         <div className="flex flex-row justify-between px-5">
@@ -55,6 +59,11 @@ export const ShapeEditor = ({ shape, dispatch }: ShapeEditorProps) => {
             value={y}
           />
         </div>
+        {"radius" in shape ? (
+          <CircleEditor shape={shape} dispatch={dispatch} />
+        ) : (
+          <RectangleEditor shape={shape} dispatch={dispatch} />
+        )}
       </div>
     </div>
   );

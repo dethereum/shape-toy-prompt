@@ -1,8 +1,8 @@
 import React from "react";
 
 import { Canvas } from "./components/Canvas";
+import { ShapeEditorList } from "./components/Edit/ShapeEditorList";
 import { ShapeAdder } from "./components/ShapeAdder";
-import { ShapeEditorList } from "./components/ShapeEditorList";
 import useCanvas from "./hooks/useCanvas";
 import useShapes from "./hooks/useShapes";
 

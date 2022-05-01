@@ -1,6 +1,6 @@
 import type { Dispatch } from "react";
-import type { RootAction } from "../func/reducer";
-import type { Shape } from "../shapes";
+import type { RootAction } from "../../func/reducer";
+import type { Shape } from "../../shapes";
 
 import React from "react";
 
