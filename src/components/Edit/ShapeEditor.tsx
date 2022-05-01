@@ -21,6 +21,7 @@ export const ShapeEditor = ({ shape, dispatch }: ShapeEditorProps) => {
   const {
     id,
     point: { x, y },
+    color,
   } = shape;
 
   return (
@@ -64,6 +65,15 @@ export const ShapeEditor = ({ shape, dispatch }: ShapeEditorProps) => {
         ) : (
           <RectangleEditor shape={shape} dispatch={dispatch} />
         )}
+        <div className="flex flex-row justify-between px-5">
+          <p>color:</p>
+          <input
+            className="w-1/6 mr-20"
+            aria-label={`color-${id}`}
+            type="color"
+            value={color}
+          />
+        </div>
       </div>
     </div>
   );
