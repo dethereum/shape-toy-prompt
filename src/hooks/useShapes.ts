@@ -21,8 +21,10 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
     "shapes"
   );
 
+  // derived data
   const shapes = getShapes(state);
   const selected = getSelectedShapes(state);
+  const highlightedId = state.highlighted;
 
   useEffect(() => {
     const ref = canvasRef.current;
@@ -54,39 +56,36 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
           y: offsetY,
         };
 
+        let isPointInAnyShape = false;
         for (const s of shapes) {
-          // selected shapes cannot be highlighed
-          if (s.isSelected) {
-            if (isMouseDown) {
-              const dx = clientX - offset.x; // true movement along the x plane
-              const dy = clientY - offset.y; // true movement along the y plane
+          if (s.isSelected && isMouseDown) {
+            const dx = clientX - offset.x; // true movement along the x plane
+            const dy = clientY - offset.y; // true movement along the y plane
 
-              const movePoint = {
-                x: dx + s.point.x,
-                y: dy + s.point.y,
-              };
+            const movePoint = {
+              x: dx + s.point.x,
+              y: dy + s.point.y,
+            };
 
-              // after creating the move point update the offset with new mouse position
-              setOffset({ x: clientX, y: clientY });
+            // after creating the move point update the offset with new mouse position
+            setOffset({ x: clientX, y: clientY });
 
-              dispatch({
-                type: "MOVE",
-                payload: { shape: s, point: movePoint },
-              });
-            }
-
-            continue;
+            dispatch({
+              type: "MOVE",
+              payload: { shape: s, point: movePoint },
+            });
           }
 
-          // if point in shape and unselected highlight and exit mouse handler
           if (isPointInShape(point, s)) {
-            dispatch({ type: "HIGHLIGHT", payload: s });
-            return;
+            s.isHighlighted || dispatch({ type: "HIGHLIGHT", payload: s });
+            isPointInAnyShape = true;
           }
         }
 
-        // remove highlight even if nothing is highlighted. reduces handles this use case
-        dispatch({ type: "REMOVE_HIGHLIGHT" });
+        // point is not in any shape AND something is highlighted DISPATCH REMOVE_HIGHLIGHT Action
+        if (!isPointInAnyShape && highlightedId) {
+          dispatch({ type: "REMOVE_HIGHLIGHT" });
+        }
       };
 
       const mouseUpHandler = () => {
@@ -106,7 +105,7 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
         }
       };
     }
-  }, [canvasRef, shapes, isMouseDown, offset.x, offset.y]);
+  }, [canvasRef, shapes, isMouseDown, offset.x, offset.y, highlightedId]);
 
   return [shapes, selected, dispatch] as const;
 };

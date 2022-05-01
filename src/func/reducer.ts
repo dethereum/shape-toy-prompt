@@ -97,7 +97,6 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
           [action.payload.id]: {
             ...action.payload,
             isSelected: true,
-            isHighlighted: false,
           },
         }
       );
@@ -106,8 +105,6 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         ...state,
         selected: [action.payload.id],
         entities,
-        highlighted:
-          action.payload.id == state.highlighted ? "" : state.highlighted,
       };
     case "MULTI_SELECT":
       return {
@@ -150,10 +147,17 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         }, state.entities),
       };
     case "HIGHLIGHT":
+      // eslint-disable-next-line no-case-declarations
+      const { highlighted, entities: ents } = state;
+
       return {
         ...state,
+        //@ts-expect-error dynamic key will be there because of in check
         entities: {
-          ...state.entities,
+          ...ents,
+          ...(highlighted && highlighted in ents
+            ? { [highlighted]: { ...ents[highlighted], isHighlighted: false } }
+            : {}),
           [action.payload.id]: {
             ...action.payload,
             isHighlighted: true,
