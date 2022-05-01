@@ -1,4 +1,4 @@
-import type { Shape } from "../shapes";
+import type { Point, Shape } from "../shapes";
 
 type AddAction = {
   type: "ADD";
@@ -7,6 +7,14 @@ type AddAction = {
 type SelectAction = {
   type: "SELECT";
   payload: Shape;
+};
+
+type MoveAction = {
+  type: "MOVE";
+  payload: {
+    shape: Shape;
+    point: Point;
+  };
 };
 
 type MultiSelectAction = {
@@ -39,7 +47,8 @@ export type RootAction =
   | DeselectAction
   | DeselectAllAction
   | HighlightAction
-  | RemoveHighlightAction;
+  | RemoveHighlightAction
+  | MoveAction;
 
 export type RootState = {
   entities: Record<string, Shape>;
@@ -154,6 +163,20 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
           },
         },
         highlighted: "",
+      };
+    case "MOVE":
+      return {
+        ...state,
+        entities: {
+          ...state.entities,
+          [action.payload.shape.id]: {
+            ...action.payload.shape,
+            point: {
+              x: action.payload.point.x,
+              y: action.payload.point.y,
+            },
+          },
+        },
       };
     default:
       return state;
