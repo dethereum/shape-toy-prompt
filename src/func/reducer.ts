@@ -194,6 +194,10 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
               x: point.x,
               y: point.y,
             },
+            // TODO: figure out double highlight happens on move without this line.
+            // there is nothing obvious that mutates the shape before dispatching move action
+            // only point should be different
+            isHighlighted: shape.id == state.highlighted,
           },
         },
       };
