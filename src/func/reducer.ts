@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 import type { Point, Shape } from "../shapes";
 
 type AddAction = {
@@ -81,7 +82,6 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         },
       };
     case "SELECT":
-      // eslint-disable-next-line no-case-declarations
       const entities = state.selected.reduce<Record<string, Shape>>(
         (shapes, id) => {
           const s = shapes[id];
@@ -119,12 +119,20 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         selected: [...state.selected, action.payload.id],
       };
     case "DESELECT":
-      // eslint-disable-next-line no-case-declarations
       const newSelected = state.selected.filter((s) => action.payload.id !== s);
+
+      const { highlighted: hilyted, entities: ets } = state;
+
       return {
         ...state,
+        //@ts-expect-error dynamic key will be there (maybe? needs test) because of in check
         entities: {
-          ...state.entities,
+          ...ets,
+          // TODO: top priority to test this case of the reducer
+          // this should make old highlighted shape not highlighted
+          ...(hilyted && hilyted in ets
+            ? { [hilyted]: { ...ets[hilyted], isHighlighted: false } }
+            : {}),
           [action.payload.id]: {
             ...action.payload,
             isSelected: false,
@@ -151,7 +159,6 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         }, state.entities),
       };
     case "HIGHLIGHT":
-      // eslint-disable-next-line no-case-declarations
       const { highlighted, entities: ents } = state;
 
       return {
@@ -172,7 +179,6 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         highlighted: action.payload.id,
       };
     case "REMOVE_HIGHLIGHT":
-      // eslint-disable-next-line no-case-declarations
       const hs = state.entities[state.highlighted];
       if (!hs) return state;
       return {
@@ -187,7 +193,6 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         highlighted: "",
       };
     case "MOVE":
-      // eslint-disable-next-line no-case-declarations
       const { point, shape } = action.payload;
 
       return {
@@ -208,7 +213,7 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         },
       };
     case "DELETE":
-      // eslint-disable-next-line no-case-declarations, @typescript-eslint/no-unused-vars
+      // eslint-disable-next-line  @typescript-eslint/no-unused-vars
       const { [action.payload.id]: removed, ...kept } = state.entities;
 
       return {
