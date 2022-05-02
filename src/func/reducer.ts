@@ -119,6 +119,8 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
         selected: [...state.selected, action.payload.id],
       };
     case "DESELECT":
+      // eslint-disable-next-line no-case-declarations
+      const newSelected = state.selected.filter((s) => action.payload.id !== s);
       return {
         ...state,
         entities: {
@@ -126,11 +128,13 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
           [action.payload.id]: {
             ...action.payload,
             isSelected: false,
-            isHighlighted: true,
+            // dont highlight deselected shape during multi-drag
+            isHighlighted: newSelected.length == 0,
           },
         },
-        selected: state.selected.filter((s) => action.payload.id !== s),
-        highlighted: action.payload.id,
+        selected: newSelected,
+        // dont highlight deselected shape during multi-drag
+        highlighted: newSelected.length > 0 ? "" : action.payload.id,
       };
     case "DESELECT_ALL":
       return {
