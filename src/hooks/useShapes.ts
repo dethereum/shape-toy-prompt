@@ -88,7 +88,7 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
         }
 
         // point is not in any shape AND something is highlighted DISPATCH REMOVE_HIGHLIGHT Action
-        if (!isPointInAnyShape && highlightedId) {
+        if (!isPointInAnyShape && highlightedId && !isMouseDown) {
           dispatch({ type: "REMOVE_HIGHLIGHT" });
         }
       };
