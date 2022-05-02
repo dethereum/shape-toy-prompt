@@ -25,7 +25,6 @@ export const Canvas = ({ shapes, ctx, canvas }: CanvasProps) => {
         // if shape selected skip to next shape
         if (s.isSelected) {
           selectShape(ctx, s);
-          continue;
         }
 
         if (s.isHighlighted) highlightShape(ctx, s);
