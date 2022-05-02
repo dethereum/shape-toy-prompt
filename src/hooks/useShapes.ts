@@ -77,7 +77,12 @@ const useShapes = (canvasRef: RefObject<HTMLCanvasElement>) => {
           }
 
           if (isPointInShape(point, s)) {
-            s.isHighlighted || dispatch({ type: "HIGHLIGHT", payload: s });
+            // highlighting something that is highlighted is a waste of log space
+            // highlighting on mouse down causes collision and lag (most likely time to have mouse point in two or more shapes)
+            const dontHightlight = s.isHighlighted || isMouseDown;
+
+            // is both conditions are false and point is in shape go highlight
+            dontHightlight || dispatch({ type: "HIGHLIGHT", payload: s });
             isPointInAnyShape = true;
           }
         }

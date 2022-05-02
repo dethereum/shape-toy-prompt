@@ -152,9 +152,11 @@ export const reducer = (state: RootState, action: RootAction): RootState => {
 
       return {
         ...state,
-        //@ts-expect-error dynamic key will be there because of in check
+        //@ts-expect-error dynamic key will be there (maybe? needs test) because of in check
         entities: {
           ...ents,
+          // TODO: top priority to test this case of the reducer
+          // this should make old highlighted shape not highlighted
           ...(highlighted && highlighted in ents
             ? { [highlighted]: { ...ents[highlighted], isHighlighted: false } }
             : {}),
