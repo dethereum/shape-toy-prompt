@@ -13,7 +13,7 @@ type ShapeEditorListProps = {
 
 export const ShapeEditorList = ({ shapes, dispatch }: ShapeEditorListProps) => {
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 max-h-[500px] overflow-y-auto">
       {shapes.map((s) => (
         <ShapeEditor shape={s} key={s.id} dispatch={dispatch} />
       ))}
